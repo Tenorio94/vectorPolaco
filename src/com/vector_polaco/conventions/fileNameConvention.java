@@ -17,6 +17,7 @@ public class fileNameConvention {
         File [] fileInDirectoryCollection = folder.listFiles();
         System.out.println(sPathName);
         String sExtension = "";
+        String sOriginalName = "";
         int iExtensionIndex = 0;
 
         for(File fileIndividual: fileInDirectoryCollection){
@@ -26,11 +27,22 @@ public class fileNameConvention {
                 sExtension = sExtension.substring(iExtensionIndex + 1);
 
                 if(sExtension.equals("cpp")) {
-                    sArrFileNames.add(fileIndividual.getName());
+                    sOriginalName = removeNamePrefix(fileIndividual.getName());
+                    sArrFileNames.add(sOriginalName);
                 }
             }
         }
         System.out.println(sArrFileNames);
+    }
+
+    public String removeNamePrefix(String sFileName){
+        int iDateScoreIndex = 0;
+        String sOriginalFileName = "";
+
+        iDateScoreIndex = sFileName.indexOf("_attempt_");
+        sOriginalFileName = sFileName.substring(iDateScoreIndex + 29);
+
+        return sOriginalFileName;
     }
 
     public void checkFileName(String sFileName){
@@ -60,6 +72,7 @@ public class fileNameConvention {
         sArrFileNamingEvaluation.add(sArrNameReview);
     }
 
+    //Debugging
     public void printArray(String sTypeArray){
         if (sTypeArray == "Naming"){
             for(int iterator = 0; iterator < sArrFileNames.size(); iterator++){
@@ -67,8 +80,13 @@ public class fileNameConvention {
             }
         }
         else if (sTypeArray == "Evaluation"){
+            System.out.println("-----------------------------------------------------");
             for(int iterator = 0; iterator < sArrFileNamingEvaluation.size(); iterator++){
-                System.out.println(sArrFileNamingEvaluation.get(iterator));
+                System.out.println("Naming review for file " + sArrFileNames.get(iterator));
+                for(String sNameFeedback : sArrFileNamingEvaluation.get(iterator)) {
+                    System.out.println(sNameFeedback);
+                }
+                System.out.println("-----------------------------------------------------");
             }
         }
     }
