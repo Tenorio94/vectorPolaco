@@ -5,14 +5,13 @@ package com.vector_polaco.conventions;
  */
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class fileNameConvention {
-    public ArrayList<String> sArrFileNames = new ArrayList<String>();
-    public ArrayList<ArrayList<String>> sArrFileNamingEvaluation = new ArrayList<>();
 
-    public void retrieveFiles(String sPathName){
+    public void retrieveFiles(String sPathName, ArrayList<String> sArrFileNames){
         File folder = new File(sPathName);
         File [] fileInDirectoryCollection = folder.listFiles();
         System.out.println(sPathName);
@@ -35,7 +34,8 @@ public class fileNameConvention {
         System.out.println(sArrFileNames);
     }
 
-    public String removeNamePrefix(String sFileName){
+    //Remove Blackboard default formatting
+    private String removeNamePrefix(String sFileName){
         int iDateScoreIndex = 0;
         String sOriginalFileName = "";
 
@@ -45,7 +45,7 @@ public class fileNameConvention {
         return sOriginalFileName;
     }
 
-    public void checkFileName(String sFileName){
+    public void evaluateFileName(String sFileName, ArrayList<ArrayList<String>> sArrFileNamingEvaluation){
         ArrayList<String> sArrNameReview = new ArrayList<String>();
         Boolean bPerfectFileName = true;
 
@@ -61,8 +61,8 @@ public class fileNameConvention {
             sArrNameReview.add("Filename should start with uppercase");
             bPerfectFileName = false;
         }
-        if (Pattern.matches(".*[áéíóúýñÑ].*", sFileName)){
-            sArrNameReview.add("Filename should not contain accents or ñ/Ñ");
+        if (Pattern.matches(".*[áéíóúýñÑ%].*", sFileName)){
+            sArrNameReview.add("Filename should not contain accents, '%', or ñ/Ñ");
             bPerfectFileName = false;
         }
 
@@ -73,7 +73,7 @@ public class fileNameConvention {
     }
 
     //Debugging
-    public void printArray(String sTypeArray){
+    public void printArray(String sTypeArray, ArrayList<ArrayList<String>> sArrFileNamingEvaluation, ArrayList<String> sArrFileNames){
         if (sTypeArray == "Naming"){
             for(int iterator = 0; iterator < sArrFileNames.size(); iterator++){
                 System.out.println("Filename " + sArrFileNames.get(iterator));
