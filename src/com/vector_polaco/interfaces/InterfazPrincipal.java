@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import static java.lang.System.exit;
 import com.vector_polaco.conventions.fileNameConvention;
+import com.vector_polaco.api.*;
 
 public class InterfazPrincipal extends JFrame implements ActionListener {
 
@@ -151,23 +152,15 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     }
 
     private void clickBotonContinuar(){
-        checkFileNaming();
+        ConventionController Controller = new ConventionController();
+        checkFileNaming(Controller);
     }
 
-    private void checkFileNaming(){
+    private void checkFileNaming(ConventionController Controller){
         String sPath = "";
-
         sPath = jteCarpetaContenedora.getText();
-        fileNameConvention fileName = new fileNameConvention();
-        fileName.retrieveFiles(sPath);
 
-        fileName.printArray("Naming");
-
-        for(String sFileName : fileName.sArrFileNames){
-            fileName.checkFileName(sFileName);
-        }
-
-        fileName.printArray("Evaluation");
+        Controller.getFilesController(sPath);
     }
 
     private void clickBotonLimpiar() {
