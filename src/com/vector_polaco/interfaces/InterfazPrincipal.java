@@ -157,6 +157,13 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         fileNameConvention fileName = new fileNameConvention();
         fileName.retrieveFiles(sPath);
 
+        fileName.printArray("Naming");
+
+        for(String sFileName : fileName.sArrFileNames){
+            fileName.checkFileName(sFileName);
+        }
+
+        fileName.printArray("Evaluation");
     }
 
     private void clickBotonLimpiar() {

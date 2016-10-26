@@ -60,4 +60,17 @@ public class fileNameConvention {
         sArrFileNamingEvaluation.add(sArrNameReview);
     }
 
+    public void printArray(String sTypeArray){
+        if (sTypeArray == "Naming"){
+            for(int iterator = 0; iterator < sArrFileNames.size(); iterator++){
+                System.out.println("Filename " + sArrFileNames.get(iterator));
+            }
+        }
+        else if (sTypeArray == "Evaluation"){
+            for(int iterator = 0; iterator < sArrFileNamingEvaluation.size(); iterator++){
+                System.out.println(sArrFileNamingEvaluation.get(iterator));
+            }
+        }
+    }
+
 }
