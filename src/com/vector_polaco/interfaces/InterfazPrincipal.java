@@ -5,9 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by robil on 20/09/2016.
- */
+import static java.lang.System.exit;
+
 public class InterfazPrincipal extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +19,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     private JLabel jlaCarpetaContenedora, jlaArchivoOutput, jlaExtension, jlaNombreArchivoSalida, jlaListaCriterios;
     private JTextField jteCarpetaContenedora, jteLugarArchivoSalida, jteNombreArchivoSalida;
     private JComboBox<String> jcoListaCriterios;
+    private String sDirectory;
 
     public void createGUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,47 +52,59 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         jlaExtension.setBounds(CELL_WIDTH * 10, CELL_HEIGHT * 13, CELL_WIDTH * 2, CELL_HEIGHT);
         conVentana.add(jlaExtension);
 
-
         // Botones
         jbuBorrarListaCriterios = new JButton("Borrar");
         jbuBorrarListaCriterios.setBounds(CELL_WIDTH, CELL_HEIGHT * 4, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuBorrarListaCriterios);
         jbuBorrarListaCriterios.addActionListener(this);
+        //jbuBorrarListaCriterios.
 
         jbuEditarListaCriterios = new JButton("Editar");
         jbuEditarListaCriterios.setBounds(CELL_WIDTH * 5, CELL_HEIGHT * 4, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuEditarListaCriterios);
-        jbuEditarListaCriterios.addActionListener(this);
+        jbuEditarListaCriterios.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfazCriterios c = new InterfazCriterios();
+                c.createGui();
+                c.setVisible(true);
+            }
+        });
 
         jbuNuevaListaCriterios = new JButton("Nuevo");
         jbuNuevaListaCriterios.setBounds(CELL_WIDTH * 9, CELL_HEIGHT * 4, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuNuevaListaCriterios);
-        jbuNuevaListaCriterios.addActionListener(this);
+        jbuNuevaListaCriterios.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfazCriterios c = new InterfazCriterios();
+                c.createGui();
+                c.setVisible(true);
+            }
+        });
 
         jbuSeleccionarCarpetaContenedora = new JButton("Seleccionar");
-        jbuSeleccionarCarpetaContenedora.setBounds(CELL_WIDTH * 9 , CELL_HEIGHT * 7, CELL_WIDTH * 3, CELL_HEIGHT);
+        jbuSeleccionarCarpetaContenedora.setBounds(CELL_WIDTH * 9, CELL_HEIGHT * 7, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuSeleccionarCarpetaContenedora);
-        jbuSeleccionarCarpetaContenedora.addActionListener(this);
+        jbuSeleccionarCarpetaContenedora.addActionListener(e -> clickBotonSeleccionarCarpetaContenedora());
 
         jbuSeleccionarArchivoOutput = new JButton("Seleccionar");
-        jbuSeleccionarArchivoOutput.setBounds(CELL_WIDTH * 9, (int) (CELL_HEIGHT * 10), CELL_WIDTH * 3,  CELL_HEIGHT);
+        jbuSeleccionarArchivoOutput.setBounds(CELL_WIDTH * 9, (int) (CELL_HEIGHT * 10), CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuSeleccionarArchivoOutput);
-        jbuSeleccionarArchivoOutput.addActionListener(this);
+        jbuSeleccionarArchivoOutput.addActionListener(e -> clickBotonSeleccionarArchivoOutput());
 
         jbuSalir = new JButton("Salir");
         jbuSalir.setBounds(CELL_WIDTH, CELL_HEIGHT * 16, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuSalir);
-        jbuSalir.addActionListener(this);
+        jbuSalir.addActionListener(e -> exit(0));
 
         jbuLimpiarCampos = new JButton("Limpiar");
         jbuLimpiarCampos.setBounds(CELL_WIDTH * 5, CELL_HEIGHT * 16, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuLimpiarCampos);
-        jbuLimpiarCampos.addActionListener(this);
+        jbuLimpiarCampos.addActionListener(e -> clickBotonLimpiar());
 
         jbuContinuar = new JButton("Continuar");
         jbuContinuar.setBounds(CELL_WIDTH * 9, CELL_HEIGHT * 16, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuContinuar);
-        jbuContinuar.addActionListener(this);
+        jbuContinuar.addActionListener(e -> clickBotonContinuar());
 
         // JTextFields
         jteCarpetaContenedora = new JTextField();
@@ -112,6 +124,61 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         jcoListaCriterios.setBounds(CELL_WIDTH, CELL_HEIGHT * 2, CELL_WIDTH * 11, CELL_HEIGHT);
         conVentana.add(jcoListaCriterios);
         jcoListaCriterios.addActionListener(this);
+    }
+
+
+    private void clickBotonSeleccionarCarpetaContenedora() {
+        JFileChooser folderPicker = new JFileChooser();
+        String folderPickerTitle = "Select your folder";
+        folderPicker.setCurrentDirectory(new java.io.File("."));
+        folderPicker.setDialogTitle(folderPickerTitle);
+        folderPicker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+
+        folderPicker.setAcceptAllFileFilterUsed(false);
+
+        if (folderPicker.showOpenDialog(InterfazPrincipal.this) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): "
+                    + folderPicker.getCurrentDirectory());
+            System.out.println("getSelectedFile() : "
+                    + folderPicker.getSelectedFile());
+            sDirectory = folderPicker.getCurrentDirectory().getAbsolutePath();
+            jteCarpetaContenedora.setText(sDirectory);
+        } else {
+            System.out.println("No Folder Selection");
+        }
+    }
+
+    private void clickBotonContinuar(){
+
+    }
+
+    private void clickBotonLimpiar() {
+        jteLugarArchivoSalida.setText("");
+        jteCarpetaContenedora.setText("");
+        jteNombreArchivoSalida.setText("");
+    }
+
+    private void clickBotonSeleccionarArchivoOutput() {
+        JFileChooser folderPicker = new JFileChooser();
+        String folderPickerTitle = "Select your folder";
+        folderPicker.setCurrentDirectory(new java.io.File("."));
+        folderPicker.setDialogTitle(folderPickerTitle);
+        folderPicker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+
+        folderPicker.setAcceptAllFileFilterUsed(false);
+
+        if (folderPicker.showOpenDialog(InterfazPrincipal.this) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): "
+                    + folderPicker.getCurrentDirectory());
+            System.out.println("getSelectedFile() : "
+                    + folderPicker.getSelectedFile());
+            sDirectory = folderPicker.getCurrentDirectory().getAbsolutePath();
+            jteLugarArchivoSalida.setText(sDirectory);
+        } else {
+            System.out.println("No Folder Selection");
+        }
     }
 
     @Override
