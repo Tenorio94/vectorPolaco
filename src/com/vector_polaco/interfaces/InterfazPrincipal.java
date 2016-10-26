@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static java.lang.System.exit;
+import com.vector_polaco.conventions.fileNameConvention;
 
 public class InterfazPrincipal extends JFrame implements ActionListener {
 
@@ -142,7 +143,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
                     + folderPicker.getCurrentDirectory());
             System.out.println("getSelectedFile() : "
                     + folderPicker.getSelectedFile());
-            sDirectory = folderPicker.getCurrentDirectory().getAbsolutePath();
+            sDirectory = folderPicker.getSelectedFile().getAbsolutePath();
             jteCarpetaContenedora.setText(sDirectory);
         } else {
             System.out.println("No Folder Selection");
@@ -150,7 +151,23 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     }
 
     private void clickBotonContinuar(){
+        checkFileNaming();
+    }
 
+    private void checkFileNaming(){
+        String sPath = "";
+
+        sPath = jteCarpetaContenedora.getText();
+        fileNameConvention fileName = new fileNameConvention();
+        fileName.retrieveFiles(sPath);
+
+        fileName.printArray("Naming");
+
+        for(String sFileName : fileName.sArrFileNames){
+            fileName.checkFileName(sFileName);
+        }
+
+        fileName.printArray("Evaluation");
     }
 
     private void clickBotonLimpiar() {

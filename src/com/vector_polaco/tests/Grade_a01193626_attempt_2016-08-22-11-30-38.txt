@@ -1,0 +1,15 @@
+Name: Eduardo Aguilar Leal (a01193626)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:30:38 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: main.cpp
+	Filename: Grade_a01193626_attempt_2016-08-22-11-30-38_main.cpp
+

@@ -1,0 +1,15 @@
+Name: Genki Fabio Matsumura Villota (a01281427)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:43:14 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: GRAEDS.cpp
+	Filename: Grade_a01281427_attempt_2016-08-22-11-43-14_GRAEDS.cpp
+

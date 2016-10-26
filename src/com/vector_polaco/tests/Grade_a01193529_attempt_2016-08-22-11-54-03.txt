@@ -1,0 +1,15 @@
+Name: David Fernández Guzmán (a01193529)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:54:03 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: Grade.cpp
+	Filename: Grade_a01193529_attempt_2016-08-22-11-54-03_Grade.cpp
+

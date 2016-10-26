@@ -1,0 +1,15 @@
+Name: Paulina de la Garza Olivas (a01193671)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 12:00:20 PM CDT
+Current Grade: 25
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: grade-1.cpp
+	Filename: Grade_a01193671_attempt_2016-08-22-12-00-20_grade-1.cpp
+

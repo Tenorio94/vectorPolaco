@@ -1,0 +1,15 @@
+Name: Marlon Omar López Aguilar (a01139431)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:56:17 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+Marlon Omar Lopez Aguilar
+
+Files:
+	Original filename: Grade Program.cpp
+	Filename: Grade_a01139431_attempt_2016-08-22-11-56-17_Grade Program.cpp
+
