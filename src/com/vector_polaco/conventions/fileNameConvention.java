@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class fileNameConvention {
-    ArrayList<String> sArrFileNames = new ArrayList<String>();
-    ArrayList<ArrayList<String>> sArrFileNamingEvaluation = new ArrayList<>();
+    public ArrayList<String> sArrFileNames = new ArrayList<String>();
+    public ArrayList<ArrayList<String>> sArrFileNamingEvaluation = new ArrayList<>();
 
     public void retrieveFiles(String sPathName){
         File folder = new File(sPathName);
         File [] fileInDirectoryCollection = folder.listFiles();
-
+        System.out.println(sPathName);
         String sExtension = "";
         int iExtensionIndex = 0;
 
@@ -30,6 +30,7 @@ public class fileNameConvention {
                 }
             }
         }
+        System.out.println(sArrFileNames);
     }
 
     public void checkFileName(String sFileName){
