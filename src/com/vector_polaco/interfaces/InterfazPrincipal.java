@@ -151,6 +151,10 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     }
 
     private void clickBotonContinuar(){
+        checkFileNaming();
+    }
+
+    private void checkFileNaming(){
         String sPath = "";
 
         sPath = jteCarpetaContenedora.getText();
