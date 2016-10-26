@@ -1,0 +1,15 @@
+Name: Marian Muñoz Rosas (a00232046)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:57:24 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: CalculateGrade.cpp
+	Filename: Grade_a00232046_attempt_2016-08-22-11-57-24_CalculateGrade.cpp
+

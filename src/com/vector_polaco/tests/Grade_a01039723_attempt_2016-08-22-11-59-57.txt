@@ -1,0 +1,15 @@
+Name: José David Arreola Méndez (a01039723)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:59:57 AM CDT
+Current Grade: 25
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: grade (1).cpp
+	Filename: Grade_a01039723_attempt_2016-08-22-11-59-57_grade (1).cpp
+
