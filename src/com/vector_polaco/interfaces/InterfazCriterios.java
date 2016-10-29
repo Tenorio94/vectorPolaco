@@ -75,7 +75,7 @@ public class InterfazCriterios extends JFrame implements ActionListener {
         conVentana.add(jcbCriterio5);
         jcbCriterio5.addActionListener(e -> validateCriteria(1, jcbCriterio5, jteCriterio5));
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         jteCriterio1 = new JTextField("20");
         jteCriterio1.setBounds(CELL_WIDTH * 7, CELL_HEIGHT, CELL_WIDTH * 5, CELL_HEIGHT);
         jteCriterio1.getDocument().addDocumentListener(new DocumentListener() {

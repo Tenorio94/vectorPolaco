@@ -1,0 +1,15 @@
+Name: Saúl Yair García Álvarez (a00821291)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:59:48 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+Saul Yair Garcia Alvarez A00821291 Grade program
+
+Files:
+	Original filename: Grade.cpp
+	Filename: Grade_a00821291_attempt_2016-08-22-11-59-48_Grade.cpp
+

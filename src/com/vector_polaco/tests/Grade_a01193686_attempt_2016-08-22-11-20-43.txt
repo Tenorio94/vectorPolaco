@@ -1,0 +1,15 @@
+Name: Fernanda Lozano Martínez (a01193686)
+Assignment: Grade
+Date Submitted: Monday, August 22, 2016 11:20:43 AM CDT
+Current Grade: 100
+
+Submission Field:
+There is no student submission text data for this assignment.
+
+Comments:
+There are no student comments for this assignment.
+
+Files:
+	Original filename: grade.cpp
+	Filename: Grade_a01193686_attempt_2016-08-22-11-20-43_grade.cpp
+
