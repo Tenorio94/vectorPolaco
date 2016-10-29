@@ -1,8 +1,9 @@
 package com.vector_polaco.api;
 
-import com.vector_polaco.interfaces.*;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.vector_polaco.conventions.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -11,12 +12,13 @@ import java.util.ArrayList;
 public class ConventionController {
 
     public ArrayList<String> sArrFileNames = new ArrayList<String>();
+    public ArrayList<String> sArrFilePath = new ArrayList<>();
     public ArrayList<ArrayList<String>> sArrFileNamingEvaluation = new ArrayList<>();
     fileNameConvention NamingConvention = new fileNameConvention();
 
     public void getFilesController(String sPath){
         Boolean bDebugging = true;
-        NamingConvention.retrieveFiles(sPath, sArrFileNames);
+        NamingConvention.retrieveFiles(sPath, sArrFileNames, sArrFilePath);
 
         for(String sFileName : sArrFileNames){
             NamingConvention.evaluateFileName(sFileName, sArrFileNamingEvaluation);
@@ -28,4 +30,14 @@ public class ConventionController {
         }
     }
 
+    public void nameConstantConvention() throws FileNotFoundException {
+        ConstantsConvention Constants = new ConstantsConvention();
+
+        /*for (String sFilePath : sArrFilePath){
+            Constants.readFile(sFilePath);
+        }*/
+
+        Constants.readFile(sArrFilePath.get(0));
+
+    }
 }

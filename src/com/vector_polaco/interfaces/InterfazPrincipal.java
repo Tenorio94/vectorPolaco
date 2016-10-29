@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import static java.lang.System.exit;
 import com.vector_polaco.conventions.fileNameConvention;
@@ -106,7 +107,13 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         jbuContinuar = new JButton("Continuar");
         jbuContinuar.setBounds(CELL_WIDTH * 9, CELL_HEIGHT * 16, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuContinuar);
-        jbuContinuar.addActionListener(e -> clickBotonContinuar());
+        jbuContinuar.addActionListener(e -> {
+            try {
+                clickBotonContinuar();
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        });
 
         // JTextFields
         jteCarpetaContenedora = new JTextField();
@@ -151,16 +158,17 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         }
     }
 
-    private void clickBotonContinuar(){
+    private void clickBotonContinuar() throws FileNotFoundException {
         ConventionController Controller = new ConventionController();
         checkFileNaming(Controller);
     }
 
-    private void checkFileNaming(ConventionController Controller){
+    private void checkFileNaming(ConventionController Controller) throws FileNotFoundException {
         String sPath = "";
         sPath = jteCarpetaContenedora.getText();
 
         Controller.getFilesController(sPath);
+        Controller.nameConstantConvention();
     }
 
     private void clickBotonLimpiar() {
