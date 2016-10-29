@@ -11,10 +11,9 @@ import java.util.regex.Pattern;
 
 public class fileNameConvention {
 
-    public void retrieveFiles(String sPathName, ArrayList<String> sArrFileNames){
+    public void retrieveFiles(String sPathName, ArrayList<String> sArrFileNames, ArrayList<String> sArrFilePath){
         File folder = new File(sPathName);
         File [] fileInDirectoryCollection = folder.listFiles();
-        System.out.println(sPathName);
         String sExtension = "";
         String sOriginalName = "";
         int iExtensionIndex = 0;
@@ -26,12 +25,12 @@ public class fileNameConvention {
                 sExtension = sExtension.substring(iExtensionIndex + 1);
 
                 if(sExtension.equals("cpp")) {
+                    sArrFilePath.add(fileIndividual.getPath());
                     sOriginalName = removeNamePrefix(fileIndividual.getName());
                     sArrFileNames.add(sOriginalName);
                 }
             }
         }
-        System.out.println(sArrFileNames);
     }
 
     //Remove Blackboard default formatting
