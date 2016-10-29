@@ -37,7 +37,7 @@ public class ConventionController {
             Constants.readFile(sFilePath);
         }*/
 
-        Constants.readFile(sArrFilePath.get(0));
-
+        ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
+        Constants.evaluateConstants(listCurrentFile);
     }
 }
