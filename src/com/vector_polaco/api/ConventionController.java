@@ -14,6 +14,7 @@ public class ConventionController {
     public ArrayList<String> sArrFileNames = new ArrayList<String>();
     public ArrayList<String> sArrFilePath = new ArrayList<>();
     public ArrayList<ArrayList<String>> sArrFileNamingEvaluation = new ArrayList<>();
+
     fileNameConvention NamingConvention = new fileNameConvention();
 
     public void getFilesController(String sPath){
@@ -38,6 +39,7 @@ public class ConventionController {
         }*/
 
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
-        Constants.evaluateConstants(listCurrentFile);
+        ArrayList<ConstantsConvention> arrListVariables = Constants.evaluateConstants(listCurrentFile);
+
     }
 }
