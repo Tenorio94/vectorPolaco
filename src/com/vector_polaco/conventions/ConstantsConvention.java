@@ -5,24 +5,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.sun.org.apache.xpath.internal.operations.Variable;
+import  com.vector_polaco.VariableObject;
+
 /**
  * Created by Tenorio94 on 10/26/2016.
  */
 public class ConstantsConvention {
 
-    ArrayList<ConstantsConvention> arrListVariables = new ArrayList<>();
-
-    public ConstantsConvention () {
-        String sVariableName = "";
-        Boolean bConstant = true;
-        String sVariableType = "";
-    }
-
-    public ConstantsConvention (String sName, String sType, Boolean bIsConstant) {
-        String sVariableName = sName;
-        Boolean bConstant = bIsConstant;
-        String sVariableType = sType;
-    }
+    ArrayList<VariableObject> arrListVariables = new ArrayList<>();
 
     public ArrayList<String> readFile(String sFilePath) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(sFilePath));
@@ -36,7 +28,7 @@ public class ConstantsConvention {
         return listFileRead;
     }
 
-    public ArrayList<ConstantsConvention> evaluateConstants(ArrayList<String> listCurrentFileRead) {
+    public ArrayList<VariableObject> fillConstants(ArrayList<String> listCurrentFileRead) {
         int iNumber = 1;
         int iIntegerIndex = 0;
         String sCurrentWord = "";
@@ -49,31 +41,35 @@ public class ConstantsConvention {
 
             switch(sCurrentWord) {
                 case "int" :
-                    evaluateConstantIntegers(sCurrentWord);
+                    fillConstantIntegers(sCurrentWord);
                     break;
 
                 case "double" :
-                    evaluateConstantDouble(sCurrentWord);
+                    fillConstantDouble(sCurrentWord);
+                    break;
+
+                case "char" :
+                    fillConstantChars(sCurrentWord);
                     break;
 
                 case "String" :
-                    evaluateConstantStrings(sCurrentWord);
+                    fillConstantStrings(sCurrentWord);
                     break;
 
                 case "float" :
-                    evaluateConstantFloat(sCurrentWord);
+                    fillConstantFloat(sCurrentWord);
                     break;
 
                 case "bool" :
-                    evaluateConstantBooleans(sCurrentWord);
+                    fillConstantBooleans(sCurrentWord);
                     break;
 
                 case "int[]" :
-                    evaluateConstantIntArray(sCurrentWord);
+                    fillConstantIntArray(sCurrentWord);
                     break;
 
                 case "double[]" :
-                    evaluateConstantDoubleMatrix(sCurrentWord);
+                    fillConstantDoubleMatrix(sCurrentWord);
                     break;
 
             }
@@ -91,76 +87,285 @@ public class ConstantsConvention {
         return arrListVariables;
     }
 
-    private void evaluateConstantIntegers(String sConstantName){
+    public void evaluateConstants(){
+        for(VariableObject constant : arrListVariables){
+            switch (constant.sVariableType) {
+                case "Integer" :
+                    evaluateInteger(constant);
+                    break;
+                case "Boolean" :
+                    evaluateBoolean(constant);
+                    break;
+                case "String" :
+                    evaluateString(constant);
+                    break;
+                case "Character" :
+                    evaluateCharacter(constant);
+                    break;
+                case "Double" :
+                    evaluateDouble(constant);
+                    break;
+                case "Float" :
+                    evaluateFloat(constant);
+                    break;
+                case "Integer Array" :
+                    evaluateIntArray(constant);
+                    break;
+                case "Double Matrix" :
+                    evaluateDoubleMatrix(constant);
+                    break;
+            }
+        }
+    }
+
+    private void fillConstantIntegers(String sConstantName){
         System.out.println("Enter integer");
 
-        ConstantsConvention newInteger = new ConstantsConvention(sConstantName, "Integer", true);
+        VariableObject newInteger = new VariableObject(sConstantName, "Integer", true);
         arrListVariables.add(newInteger);
 
         newInteger = null;
     }
 
-    private void evaluateConstantBooleans(String sConstantName){
+    private void fillConstantBooleans(String sConstantName){
         System.out.println("Enter Boolean");
 
-        ConstantsConvention newBoolean = new ConstantsConvention(sConstantName, "Boolean", true);
+        VariableObject newBoolean = new VariableObject(sConstantName, "Boolean", true);
         arrListVariables.add(newBoolean);
 
         newBoolean = null; //Garbage collector
     }
 
-    private void evaluateConstantStrings(String sConstantName){
+    private void fillConstantStrings(String sConstantName){
         System.out.println("Enter String");
 
-        ConstantsConvention newString = new ConstantsConvention(sConstantName, "String", true);
+        VariableObject newString = new VariableObject(sConstantName, "String", true);
         arrListVariables.add(newString);
 
         newString = null;
     }
 
-    private void evaluateConstantChars(String sConstantName){
+    private void fillConstantChars(String sConstantName){
         System.out.println("Enter Character");
 
-        ConstantsConvention newCharacter = new ConstantsConvention(sConstantName, "Character", true);
+        VariableObject newCharacter = new VariableObject(sConstantName, "Character", true);
         arrListVariables.add(newCharacter);
 
         newCharacter = null;
     }
 
-    private void evaluateConstantDouble(String sConstantName){
+    private void fillConstantDouble(String sConstantName){
         System.out.println("Enter Double");
 
-        ConstantsConvention newDouble = new ConstantsConvention(sConstantName, "Double", true);
+        VariableObject newDouble = new VariableObject(sConstantName, "Double", true);
         arrListVariables.add(newDouble);
 
         newDouble = null;
     }
 
-    private void evaluateConstantFloat(String sConstantName){
+    private void fillConstantFloat(String sConstantName){
         System.out.println("Enter Float");
 
-        ConstantsConvention newFloat = new ConstantsConvention(sConstantName, "Float", true);
+        VariableObject newFloat = new VariableObject(sConstantName, "Float", true);
         arrListVariables.add(newFloat);
 
         newFloat = null;
     }
 
-    private void evaluateConstantIntArray(String sConstantName){
+    private void fillConstantIntArray(String sConstantName){
         System.out.println("Enter Integer Array");
 
-        ConstantsConvention newIntegerArray = new ConstantsConvention(sConstantName, "Integer Array", true);
+        VariableObject newIntegerArray = new VariableObject(sConstantName, "Integer Array", true);
         arrListVariables.add(newIntegerArray);
 
         newIntegerArray = null;
     }
 
-    private void evaluateConstantDoubleMatrix(String sConstantName){
+    private void fillConstantDoubleMatrix(String sConstantName){
         System.out.println("Enter Double Matrix");
 
-        ConstantsConvention newDoubleMatrix = new ConstantsConvention(sConstantName, "Double Matrix", true);
+        VariableObject newDoubleMatrix = new VariableObject(sConstantName, "Double Matrix", true);
         arrListVariables.add(newDoubleMatrix);
 
         newDoubleMatrix = null;
     }
+
+    private void evaluateInteger(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.indexOf(0) != 'i'){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=1; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateBoolean(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.indexOf(0) != 'b'){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=1; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateString(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.indexOf(0) != 's'){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=1; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateCharacter(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.indexOf(0) != 'c'){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=1; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateDouble(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.indexOf(0) != 'd'){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=1; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateFloat(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.indexOf(0) != 'f'){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=1; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateIntArray(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.substring(0,3) != "iArr"){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=4; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+    private void evaluateDoubleMatrix(VariableObject constant){
+        String currentConstant = constant.sVariableName;
+        boolean bIsPerfect = true;
+        currentConstant = currentConstant.trim();
+
+        if (currentConstant.substring(0,3) != "dMat"){
+            constant.sFeedback += "Variable starts with wrong prefix.";
+            bIsPerfect = false;
+        }
+
+        for (int i=4; i<currentConstant.length(); i++){
+            if (Character.isLowerCase(currentConstant.charAt(i))){
+                constant.sFeedback += "Variable should be written in uppercase.";
+                bIsPerfect = false;
+            }
+        }
+
+        if (!bIsPerfect){
+            constant.sFeedback += "Variable is correctly written";
+        }
+    }
+
+
 
 }
