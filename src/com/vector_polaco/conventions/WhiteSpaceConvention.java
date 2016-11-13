@@ -43,23 +43,43 @@ public class WhiteSpaceConvention {
         }
     }
 
-    public void oneInstructionPerLine(String s) {
-        if (s.trim().equals("") == false) {
+    public void checkSpaces(String s) {
+        if (s.contains("+") || s.contains("-") || s.contains("*") || s.contains("/")
+                || s.contains("^") || s.contains("=") || s.contains("==")
+                || s.contains("!=") || s.contains("<") || s.contains(">")
+                || s.contains("<=") || s.contains(">=") || s.contains("&&")
+                || s.contains("||") || s.contains(">>") || s.contains("<<")) {
+            s = checaSigno(s,"+");
+            s = checaSigno(s,"-");
+            s = checaSigno(s,"*");
+            s = checaSigno(s,"/");
+            s = checaSigno(s,"^");
+            s = checaSigno(s,"=");
+            s = checaSigno(s,"==");
+            s = checaSigno(s,"!=");
+            s = checaSigno(s,"<");
+            s = checaSigno(s,">");
+            s = checaSigno(s,"<=");
+            s = checaSigno(s,">=");
+            s = checaSigno(s,"&&");
+            s = checaSigno(s,"||");
+            s = checaSigno(s,">>");
+            s = checaSigno(s,"<<");
+        }
+    }
 
-            String sLast;
-            int tam = (s.length());
-            if (tam > 1) {
-                sLast = s.substring(tam - 1, tam);
-            } else {
-                sLast = s;
-            }
-            if ((sLast.startsWith(";") == false) && (sLast.startsWith(")") == false)
-                    && (sLast.startsWith("{") == false) && (sLast.startsWith("}") == false)
-                    && (sLast.startsWith(">") == false)
-                    && (sLast.trim().equals("") == false) && (s.trim().equals("else") == false)) {
+    public String checaSigno(String s, String c) {
+        while (s.contains(c)) {
+            int iN = s.indexOf(c);
+            char cPosA = s.charAt(iN - 1);
+            char cPosD = s.charAt(iN + 1);
+            if ((cPosA != ' ') && (cPosD != ' ')) {
                 iContadordeErrores++;
             }
+            s = s.replaceFirst(c, ".");
+
         }
+        return s;
     }
 
     public void checkWhiteSpaces(ArrayList<String> listFileRead) {
@@ -70,9 +90,10 @@ public class WhiteSpaceConvention {
             if ((s.contains("//"))) {
                 bFlagComment = true;
             }
-            if ((bFlagCommentML == false) && (bFlagComment == false) && (!s.contains("*/"))) {
+            if ((bFlagCommentML == false) && (bFlagComment == false) && (!s.contains("*/")) && (!s.contains("#"))) {
                 checkIndentationLevel(s);
-                oneInstructionPerLine(s);
+                System.out.println("hola:c");
+                checkSpaces(s);
 
             }
             if (s.contains("*/")) {
