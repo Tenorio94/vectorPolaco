@@ -32,6 +32,7 @@ public class ConventionController {
 
     public void nameConstantConvention() throws FileNotFoundException {
         ConstantsConvention Constants = new ConstantsConvention();
+        WhiteSpaceConvention wsc = new WhiteSpaceConvention();
 
         /*for (String sFilePath : sArrFilePath){
             Constants.readFile(sFilePath);
@@ -39,5 +40,7 @@ public class ConventionController {
 
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
         Constants.evaluateConstants(listCurrentFile);
+        ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
+        wsc.checkIndentationLevel(lista);
     }
 }
