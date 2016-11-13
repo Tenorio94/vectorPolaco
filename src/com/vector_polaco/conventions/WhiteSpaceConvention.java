@@ -26,7 +26,43 @@ public class WhiteSpaceConvention {
         return listFileRead;
     }
 
-    public void checkIndentationLevel(ArrayList<String> listFileRead) {
+    public void checkIndentationLevel(String s) {
+        if ((bFlagCommentML == false) && (bFlagComment == false)) {
+            if (s.contains("{")) {
+                iIndentationLevel++;
+            }
+            s.replace("    ", "\t");
+            int count = s.length() - s.replace("\t", ".").length();
+            if (count != iAuxIndentLevel) {
+                iContadordeErrores++;
+            }
+            iAuxIndentLevel = iIndentationLevel;
+            if (s.contains("}")) {
+                iIndentationLevel--;
+            }
+        }
+    }
+
+    public void oneInstructionPerLine(String s) {
+        if (s.trim().equals("") == false) {
+
+            String sLast;
+            int tam = (s.length());
+            if (tam > 1) {
+                sLast = s.substring(tam - 1, tam);
+            } else {
+                sLast = s;
+            }
+            if ((sLast.startsWith(";") == false) && (sLast.startsWith(")") == false)
+                    && (sLast.startsWith("{") == false) && (sLast.startsWith("}") == false)
+                    && (sLast.startsWith(">") == false)
+                    && (sLast.trim().equals("") == false) && (s.trim().equals("else") == false)) {
+                iContadordeErrores++;
+            }
+        }
+    }
+
+    public void checkWhiteSpaces(ArrayList<String> listFileRead) {
         for (String s : listFileRead) {
             if (s.contains("/*")) {
                 bFlagCommentML = true;
@@ -34,18 +70,10 @@ public class WhiteSpaceConvention {
             if ((s.contains("//"))) {
                 bFlagComment = true;
             }
-            if ((bFlagCommentML == false) && (bFlagComment == false)) {
-                if (s.contains("{")) {
-                    iIndentationLevel++;
-                }
-                int count = s.length() - s.replace("\t", ".").length();
-                if (count != iAuxIndentLevel) {
-                    iContadordeErrores++;
-                }
-                iAuxIndentLevel = iIndentationLevel;
-                if (s.contains("}")) {
-                    iIndentationLevel--;
-                }
+            if ((bFlagCommentML == false) && (bFlagComment == false) && (!s.contains("*/"))) {
+                checkIndentationLevel(s);
+                oneInstructionPerLine(s);
+
             }
             if (s.contains("*/")) {
                 bFlagCommentML = false;
@@ -56,4 +84,5 @@ public class WhiteSpaceConvention {
         }
         System.out.println(iContadordeErrores);
     }
+
 }

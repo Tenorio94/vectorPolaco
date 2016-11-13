@@ -41,6 +41,6 @@ public class ConventionController {
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
         Constants.evaluateConstants(listCurrentFile);
         ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
-        wsc.checkIndentationLevel(lista);
+        wsc.checkWhiteSpaces(lista);
     }
 }
