@@ -40,6 +40,9 @@ public class ConventionController {
 
     public void nameConstantConvention() throws FileNotFoundException {
         ConstantsConvention Constants = new ConstantsConvention();
+        WhiteSpaceConvention wsc = new WhiteSpaceConvention();
+        InstructionPerLineConvention iplc = new InstructionPerLineConvention();
+        headerConvention hc = new headerConvention();
 
         /*for (String sFilePath : sArrFilePath){
             Constants.readFile(sFilePath);
@@ -47,6 +50,12 @@ public class ConventionController {
 
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
         Constants.evaluateConstants(listCurrentFile);
+        ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
+        wsc.checkWhiteSpaces(lista);
+        ArrayList<String> list = wsc.readFile(sArrFilePath.get(0));
+        iplc.checkWhiteSpaces(list);
+        ArrayList<String> listFiles = hc.readFile(sArrFilePath.get(0));
+        hc.checkContent(listFiles);
     }
 
     public void launchMainInterface(){
@@ -67,3 +76,4 @@ public class ConventionController {
         ic.setVisible(true);
     }
 }
+
