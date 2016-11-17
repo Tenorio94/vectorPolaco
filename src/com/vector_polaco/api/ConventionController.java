@@ -34,6 +34,7 @@ public class ConventionController {
         ConstantsConvention Constants = new ConstantsConvention();
         WhiteSpaceConvention wsc = new WhiteSpaceConvention();
         InstructionPerLineConvention iplc = new InstructionPerLineConvention();
+        headerConvention hc = new headerConvention();
 
         /*for (String sFilePath : sArrFilePath){
             Constants.readFile(sFilePath);
@@ -45,5 +46,8 @@ public class ConventionController {
         wsc.checkWhiteSpaces(lista);
         ArrayList<String> list = wsc.readFile(sArrFilePath.get(0));
         iplc.checkWhiteSpaces(list);
+        ArrayList<String> listFiles = hc.readFile(sArrFilePath.get(0));
+        hc.checkContent(listFiles);
     }
 }
+
