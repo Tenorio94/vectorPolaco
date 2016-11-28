@@ -5,182 +5,155 @@
  */
 package com.vector_polaco.interfaces;
 
-import java.awt.Container;
+import com.vector_polaco.api.ConventionController;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.lang.System.in;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.LinkedList;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+
+import javax.swing.*;
+
 import java.lang.*;
-import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.*;
 
 public class InterfazCriterios extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
-    private final int CELL_WIDTH = 30, CELL_HEIGHT = 25;
+    private final int CELL_WIDTH = 35, CELL_HEIGHT = 25;
 
     private JButton jbuAceptar, jbuLimpiar, jbuSalir;
-    private JTextField jteCriterio1, jteCriterio2, jteCriterio3, jteCriterio4, jteCriterio5;
-    private JCheckBox jcbCriterio1, jcbCriterio2, jcbCriterio3, jcbCriterio4, jcbCriterio5;
-    private ArrayList<String> liCriterios = new ArrayList<>();
+    private JFormattedTextField[] arrJteCriterios;
+    private JFormattedTextField[] arrJteDeductedPoints;
+    private JCheckBox[] arrJcbCriterios;
+    private JLabel[] arrTitulos;
+    private JLabel jlbNombreLista;
+    private JTextField jteNombreLista;
     private ArrayList<Integer> liGrading = new ArrayList<>();
+    private int id_lista_criterio = 0;
+    private ConventionController controller;
 
-    public void createGui() {
+    private static final String[] letrerosLabels = {
+            "Nombre de criterio",
+            "<html><div style='text-align:center'>Valor<br>porcentual</div></html>",
+            "<html><div style='text-align:center'>Porcentaje<br>deducido<br>por error</div></html>"
+    };
+    private static final String[] letrerosCheckboxes = {"Nombre de archivo", "Nombres de variables", "Comentarios", "Indentacion", "Instrucciones por linea"};
+
+    public InterfazCriterios(ConventionController c) {
+        this.controller = c;
+    }
+
+    public InterfazCriterios(ConventionController c, int id_lista_criterio){
+        this.controller = c;
+        this.id_lista_criterio = id_lista_criterio;
+    }
+
+    public void createGUI() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Container conVentana = this.getContentPane();
         this.setSize((int) (CELL_WIDTH * 13), (int) (CELL_HEIGHT * 19.5));
         this.setResizable(false);
 
+        NumberFormat longFormat = NumberFormat.getIntegerInstance();
+        NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+        numberFormatter.setValueClass(Integer.class); //optional, ensures you will always get a long value
+        numberFormatter.setAllowsInvalid(false); //this is the key!!
+        numberFormatter.setMinimum(0); //Optional
+        numberFormatter.setMaximum(100);
+
+        arrJteCriterios = new JFormattedTextField[5];
+        arrJteDeductedPoints = new JFormattedTextField[5];
+        arrJcbCriterios = new JCheckBox[5];
+        arrTitulos = new JLabel[3];
+
+
+        jlbNombreLista = new JLabel("Nombre de lista");
+        jlbNombreLista.setBounds(CELL_WIDTH * 1, CELL_HEIGHT * 1, CELL_WIDTH * 3, CELL_HEIGHT);
+        conVentana.add(jlbNombreLista);
+
+        jteNombreLista = new JTextField();
+        jteNombreLista.setBounds(CELL_WIDTH * 4, CELL_HEIGHT * 1, CELL_WIDTH * 8, CELL_HEIGHT);
+        conVentana.add(jteNombreLista);
+
+        for (int i = 0; i < 3; i++) {
+            arrTitulos[i] = new JLabel(letrerosLabels[i]);
+            arrTitulos[i].setVerticalAlignment(JLabel.CENTER);
+            arrTitulos[i].setHorizontalAlignment(JLabel.CENTER);
+            if (i == 0) {
+                arrTitulos[i].setBounds(CELL_WIDTH, CELL_HEIGHT * 3, CELL_WIDTH * 5, CELL_HEIGHT * 2);
+            } else {
+                arrTitulos[i].setBounds(CELL_WIDTH * ((i - 1) * 3 + 7), CELL_HEIGHT * 3, CELL_WIDTH * 2, CELL_HEIGHT * 2);
+            }
+            conVentana.add(arrTitulos[i]);
+        }
+
         conVentana.setLayout(null);
 
-        liGrading.add(0);
-        liGrading.add(0);
-        liGrading.add(0);
-        liGrading.add(0);
-        liGrading.add(0);
-
-        jcbCriterio1 = new JCheckBox("Nombre de archivo");
-        jcbCriterio1.setBounds(CELL_WIDTH, CELL_HEIGHT, CELL_WIDTH * 6, CELL_HEIGHT);
-        conVentana.add(jcbCriterio1);
-        jcbCriterio1.addActionListener(e -> validateCriteria(0, jcbCriterio1, jteCriterio1));
-
-        jcbCriterio2 = new JCheckBox("Nombres de variables");
-        jcbCriterio2.setBounds(CELL_WIDTH, CELL_HEIGHT * 3, CELL_WIDTH * 6, CELL_HEIGHT);
-        conVentana.add(jcbCriterio2);
-        jcbCriterio2.addActionListener(e -> validateCriteria(1, jcbCriterio2, jteCriterio2));
-
-        jcbCriterio3 = new JCheckBox("Comentarios");
-        jcbCriterio3.setBounds(CELL_WIDTH, CELL_HEIGHT * 5, CELL_WIDTH * 6, CELL_HEIGHT);
-        conVentana.add(jcbCriterio3);
-        jcbCriterio3.addActionListener(e -> validateCriteria(2, jcbCriterio3, jteCriterio3));
-
-        jcbCriterio4 = new JCheckBox("Indentacion");
-        jcbCriterio4.setBounds(CELL_WIDTH, CELL_HEIGHT * 7, CELL_WIDTH * 6, CELL_HEIGHT);
-        conVentana.add(jcbCriterio4);
-        jcbCriterio4.addActionListener(e -> validateCriteria(2, jcbCriterio4, jteCriterio4));;
-
-        jcbCriterio5 = new JCheckBox("Instrucciones por linea");
-        jcbCriterio5.setBounds(CELL_WIDTH, CELL_HEIGHT * 9, CELL_WIDTH * 6, CELL_HEIGHT);
-        conVentana.add(jcbCriterio5);
-        jcbCriterio5.addActionListener(e -> validateCriteria(1, jcbCriterio5, jteCriterio5));
+        for (int i = 0; i < 5; i++) {
+            liGrading.add(0);
+        }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        jteCriterio1 = new JTextField("20");
-        jteCriterio1.setBounds(CELL_WIDTH * 7, CELL_HEIGHT, CELL_WIDTH * 5, CELL_HEIGHT);
-        jteCriterio1.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio1);
-            }
+        for (int i = 0; i < 5; i++) {
+            final int x = i;
+            arrJcbCriterios[i] = new JCheckBox(letrerosCheckboxes[i]);
+            arrJteCriterios[i] = new JFormattedTextField(numberFormatter);
+            arrJteDeductedPoints[i] = new JFormattedTextField(numberFormatter);
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio1);
-            }
+            arrJcbCriterios[i].setBounds(CELL_WIDTH, CELL_HEIGHT * (5 + 2 * i), CELL_WIDTH * 6, CELL_HEIGHT);
+            arrJteDeductedPoints[i].addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent event) {
+                    if(event.getKeyChar() == ('\b') && arrJteDeductedPoints[x].getText().length() == 1) {
+                        arrJteDeductedPoints[x].setValue(null);
+                    }
+                }
 
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio1);
-            }
-        });
-        conVentana.add(jteCriterio1);
+                @Override
+                public void keyPressed(KeyEvent e) {}
 
-        jteCriterio2 = new JTextField("20");
-        jteCriterio2.setBounds(CELL_WIDTH * 7, CELL_HEIGHT * 3, CELL_WIDTH * 5, CELL_HEIGHT);
-        jteCriterio2.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio2);
-            }
+                @Override
+                public void keyReleased(KeyEvent e) {}
+            });
+            conVentana.add(arrJcbCriterios[i]);
+            arrJteCriterios[i].addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent event) {
+                    if(event.getKeyChar() == ('\b') && arrJteCriterios[x].getText().length() == 1) {
+                        arrJteCriterios[x].setValue(null);
+                    }
+                }
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio2);
-            }
+                @Override
+                public void keyPressed(KeyEvent e) {}
 
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio2);
-            }
-        });
-        conVentana.add(jteCriterio2);
+                @Override
+                public void keyReleased(KeyEvent e) {}
+            });
 
-        jteCriterio3 = new JTextField("20");
-        jteCriterio3.setBounds(CELL_WIDTH * 7, CELL_HEIGHT * 5, CELL_WIDTH * 5, CELL_HEIGHT);
-        jteCriterio3.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio3);
-            }
+            arrJteCriterios[i].setBounds(CELL_WIDTH * 7, CELL_HEIGHT * (5 + 2 * i), CELL_WIDTH * 2, CELL_HEIGHT);
+            conVentana.add(arrJteCriterios[i]);
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio3);
-            }
+            arrJteDeductedPoints[i].setBounds(CELL_WIDTH * 10, CELL_HEIGHT * (5 + 2 * i), CELL_WIDTH * 2, CELL_HEIGHT);
 
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio3);
-            }
-        });
-        conVentana.add(jteCriterio3);
 
-        jteCriterio4 = new JTextField("20");
-        jteCriterio4.setBounds(CELL_WIDTH * 7, CELL_HEIGHT * 7, CELL_WIDTH * 5, CELL_HEIGHT);
-        jteCriterio4.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio4);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio4);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio4);
-            }
-        });
-        conVentana.add(jteCriterio4);
-
-        jteCriterio5 = new JTextField("20");
-        jteCriterio5.setBounds(CELL_WIDTH * 7, CELL_HEIGHT * 9, CELL_WIDTH * 5, CELL_HEIGHT);
-        jteCriterio5.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio5);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio5);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checaContenidoDeTextField(jteCriterio5);
-            }
-        });
-        conVentana.add(jteCriterio5);
+            conVentana.add(arrJteDeductedPoints[i]);
+        }
 
         // Botones
         jbuSalir = new JButton("Salir");
         jbuSalir.setBounds(CELL_WIDTH, CELL_HEIGHT * 16, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuSalir);
-        jbuSalir.addActionListener(this);
+        jbuSalir.addActionListener(e -> InterfazCriterios.this.dispose());
 
         jbuLimpiar = new JButton("Limpiar");
         jbuLimpiar.setBounds(CELL_WIDTH * 5, CELL_HEIGHT * 16, CELL_WIDTH * 3, CELL_HEIGHT);
@@ -206,14 +179,8 @@ public class InterfazCriterios extends JFrame implements ActionListener {
         });
     }
 
-    private void validateCriteria(int index, JCheckBox jcbCriterio, JTextField jteCriterio){
-        if(!jcbCriterio.isSelected()){
-            jteCriterio.setText("0");
-        }
-    }
-
-    private void checaContenidoDeTextField(JTextField jteAChecar){
-        if(jteAChecar.getText().equals("")){
+    private void checaContenidoDeTextField(JTextField jteAChecar) {
+        if (jteAChecar.getText().equals("")) {
             jteAChecar.setText("0");
         }
     }

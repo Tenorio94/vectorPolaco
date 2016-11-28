@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
 import static java.lang.System.exit;
-import com.vector_polaco.conventions.fileNameConvention;
+
 import com.vector_polaco.api.*;
 
 public class InterfazPrincipal extends JFrame implements ActionListener {
@@ -23,6 +23,11 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     private JTextField jteCarpetaContenedora, jteLugarArchivoSalida, jteNombreArchivoSalida;
     private JComboBox<String> jcoListaCriterios;
     private String sDirectory;
+    private ConventionController controller;
+
+    public InterfazPrincipal(ConventionController c){
+        this.controller = c;
+    }
 
     public void createGUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -67,9 +72,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         conVentana.add(jbuEditarListaCriterios);
         jbuEditarListaCriterios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                InterfazCriterios c = new InterfazCriterios();
-                c.createGui();
-                c.setVisible(true);
+                InterfazPrincipal.this.controller.launchCriteriaListInterface();
             }
         });
 
@@ -78,9 +81,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         conVentana.add(jbuNuevaListaCriterios);
         jbuNuevaListaCriterios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                InterfazCriterios c = new InterfazCriterios();
-                c.createGui();
-                c.setVisible(true);
+                InterfazPrincipal.this.controller.launchCriteriaListInterface();
             }
         });
 
@@ -135,7 +136,6 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         jcoListaCriterios.addActionListener(this);
     }
 
-
     private void clickBotonSeleccionarCarpetaContenedora() {
         JFileChooser folderPicker = new JFileChooser();
         String folderPickerTitle = "Select your folder";
@@ -160,15 +160,19 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
 
     private void clickBotonContinuar() throws FileNotFoundException {
         ConventionController Controller = new ConventionController();
+
         checkFileNaming(Controller);
     }
 
     private void checkFileNaming(ConventionController Controller) throws FileNotFoundException {
         String sPath = "";
         sPath = jteCarpetaContenedora.getText();
+        if(!sPath.equals("")){
+            Controller.getFilesController(sPath);
+            Controller.nameConstantConvention();
+        } else {
 
-        Controller.getFilesController(sPath);
-        Controller.nameConstantConvention();
+        }
     }
 
     private void clickBotonLimpiar() {
@@ -183,7 +187,6 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         folderPicker.setCurrentDirectory(new java.io.File("."));
         folderPicker.setDialogTitle(folderPickerTitle);
         folderPicker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
 
         folderPicker.setAcceptAllFileFilterUsed(false);
 
