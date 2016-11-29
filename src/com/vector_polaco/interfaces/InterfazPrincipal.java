@@ -169,7 +169,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         sPath = jteCarpetaContenedora.getText();
         if(!sPath.equals("")){
             Controller.getFilesController(sPath);
-            Controller.nameConstantConvention();
+            Controller.nameConstantVariablesConvention();
         } else {
 
         }

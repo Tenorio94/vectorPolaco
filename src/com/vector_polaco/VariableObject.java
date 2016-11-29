@@ -24,4 +24,11 @@ public class VariableObject {
         bIsConstant = true;
         sFeedback = "";
     }
+
+    public void print(){
+        System.out.println("Nombre: " + sVariableName);
+        System.out.println("Type: " + sVariableType);
+        System.out.println("Feedback: " + sFeedback);
+        System.out.println();
+    }
 }
