@@ -2,7 +2,9 @@ package com.vector_polaco.api;
 
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+import com.vector_polaco.VariableObject;
 import com.vector_polaco.conventions.*;
+
 import com.vector_polaco.interfaces.InterfazCriterios;
 import com.vector_polaco.interfaces.InterfazPrincipal;
 import com.vector_polaco.models.ListaCriterio;
@@ -26,34 +28,53 @@ public class ConventionController {
         conmManager = ConnectionManager.getInstance();
     }
 
-    public void getFilesController(String sPath) {
+    public void getFilesController(String sPath){
         Boolean bDebugging = true;
         NamingConvention.retrieveFiles(sPath, sArrFileNames, sArrFilePath);
 
-        for (String sFileName : sArrFileNames) {
+        for(String sFileName : sArrFileNames){
             NamingConvention.evaluateFileName(sFileName, sArrFileNamingEvaluation);
         }
 
-        if (bDebugging) {
+        if(bDebugging){
             NamingConvention.printArray("Naming", sArrFileNamingEvaluation, sArrFileNames);
             NamingConvention.printArray("Evaluation", sArrFileNamingEvaluation, sArrFileNames);
         }
     }
 
-    public void nameConstantConvention() throws FileNotFoundException {
+    public void nameConstantVariablesConvention() throws FileNotFoundException {
         ConstantsConvention Constants = new ConstantsConvention();
         WhiteSpaceConvention wsc = new WhiteSpaceConvention();
         InstructionPerLineConvention iplc = new InstructionPerLineConvention();
         headerConvention hc = new headerConvention();
 
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
-        Constants.evaluateConstants(listCurrentFile);
+        ArrayList<VariableObject> arrListVariables = Constants.fillConstants(listCurrentFile);
+        Constants.evaluateConstants(arrListVariables);
+
+        Constants.fillVariables(listCurrentFile, "int");
+        Constants.fillVariables(listCurrentFile, "bool");
+        Constants.fillVariables(listCurrentFile, "double");
+        Constants.fillVariables(listCurrentFile, "char");
+        Constants.fillVariables(listCurrentFile, "float");
+        Constants.fillVariables(listCurrentFile, "String");
+        Constants.fillVariables(listCurrentFile, "iArr");
+        ArrayList<VariableObject> arrListRealVariables = Constants.fillVariables(listCurrentFile, "dMat");
+
+        Constants.evaluateVariables(arrListRealVariables);
+
+        for (VariableObject constant : arrListVariables) {
+            constant.print();
+        }
+
         ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
         wsc.checkWhiteSpaces(lista);
         ArrayList<String> list = wsc.readFile(sArrFilePath.get(0));
         iplc.checkWhiteSpaces(list);
-        ArrayList<String> listFiles = hc.readFile(sArrFilePath.get(0));
-        hc.checkContent(listFiles);
+        //ArrayList<String> listFiles = hc.readFile(sArrFilePath.get(0));
+        //hc.checkContent(listFiles);
+
+        System.out.println("Finished...");
     }
 
     public void launchMainInterface(){
@@ -88,4 +109,3 @@ public class ConventionController {
         System.out.print("READY\n");
     }
 }
-
