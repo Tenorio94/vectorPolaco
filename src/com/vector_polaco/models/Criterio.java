@@ -2,17 +2,33 @@ package com.vector_polaco.models;
 
 import com.vector_polaco.utilities.ConnectionManager;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * Created by robil on 02/11/2016.
- */
 public class Criterio extends BaseModel {
-    double valor, puntos_deducido_por_error;
+    int valor, puntos_deducido_por_error;
+    int id;
 
-    public Criterio(double valor, double puntos_deducido_por_error) {
+    public Criterio(int id, int valor, int puntos_deducido_por_error) {
+        this.id = id;
         this.valor = valor;
         this.puntos_deducido_por_error = puntos_deducido_por_error;
+    }
+
+    public Criterio(int id){
+        String query = "Select * FROM criterio WHERE id =" + id;
+        ResultSet result = ConnectionManager.getInstance().executeQuery(query);
+
+        try {
+            if (result.next()) {
+                this.id = id;
+                this.valor = result.getInt("valor");
+                this.puntos_deducido_por_error = result.getInt("porcentaje_deducido");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -25,41 +41,41 @@ public class Criterio extends BaseModel {
     public void update() {
         String query = "UPDATE criterio SET "+
                 "valor=" + this.valor +
-                ", id_criterio_nombre_archivo="       + this.puntos_deducido_por_error +
-                " WHERE lista_criterios.id=" + id + ";"
+                ", puntos_deducido_por_error="       + this.puntos_deducido_por_error +
+                " WHERE criterio.id=" + id + ";"
                 ;
         ConnectionManager.getInstance().execute(query);
     }
 
     public static Criterio getOne(int id) {
-        return null;
+        return new Criterio(id);
     }
 
-    public static ArrayList<Criterio> getAll(){
-        return null;
-    }
-
-    public static Criterio createOne(){
-        return null;
+    public static Criterio createOne(int valor, int puntos_deducido_por_error){
+        String query = "INSERT INTO criterio(valor, porcentaje_deducido) VALUES(" +
+                valor + ", " + puntos_deducido_por_error + ");";
+        System.out.println(query);
+        int id = ConnectionManager.getInstance().executeInsert(query);
+        return new Criterio(id, valor, puntos_deducido_por_error);
     }
 
     public int getId() {
         return id;
     }
 
-    public double getValor() {
+    public int getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
 
-    public double getPuntos_deducido_por_error() {
+    public int getPuntos_deducido_por_error() {
         return puntos_deducido_por_error;
     }
 
-    public void setPuntos_deducido_por_error(double puntos_deducido_por_error) {
+    public void setPuntos_deducido_por_error(int puntos_deducido_por_error) {
         this.puntos_deducido_por_error = puntos_deducido_por_error;
     }
 }

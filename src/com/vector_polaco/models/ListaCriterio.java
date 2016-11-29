@@ -6,9 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * Created by robil on 02/11/2016.
- */
 public class ListaCriterio extends BaseModel {
     private int id_cr_nombre_archivo, id_cr_vars_ctes, id_criterio_espacios, id_criterio_comentario_inicial, id_criterio_comentarios_funcs;
     private String nombre;
@@ -64,19 +61,20 @@ public class ListaCriterio extends BaseModel {
     }
 
     public static ArrayList<ListaCriterio> getAll() {
-        String query = "SELECT * FROM lista_criterios";
+        String query = "SELECT * FROM lista_criterios;";
         ResultSet rs = ConnectionManager.getInstance().executeQuery(query);
         ArrayList<ListaCriterio> al = new ArrayList<>();
         try {
+            System.out.println(rs.getFetchSize());
             while (rs.next()) {
                 ListaCriterio lc = new ListaCriterio(rs.getInt("id"), rs.getInt("id_criterio_nombre_archivo"),
                         rs.getInt("id_criterio_vars_ctes"), rs.getInt("id_criterio_espacios"), rs.getInt("id_criterio_comentario_inicial"), rs.getInt("id_criterio_comentarios_funcs"), rs.getString("nombre"));
                 al.add(lc);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(al.size());
         return al;
     }
 
@@ -87,9 +85,9 @@ public class ListaCriterio extends BaseModel {
     public static ListaCriterio createOne(int id_cr_nombre_archivo, int id_cr_vars_ctes, int id_criterio_espacios,
                                           int id_criterio_comentario_inicial, int id_criterio_comentarios_funcs, String nombre) {
         String query = "INSERT INTO lista_criterios(nombre, id_criterio_nombre_archivo, id_criterio_vars_ctes, " +
-                "id_criterio_espacios, id_criterio_comentario_inicial, id_criterio_comentarios_funcs) VALUES (" +
-                nombre + ", " + id_cr_nombre_archivo + ", " + id_cr_vars_ctes + ", "
-                + id_criterio_espacios + ", " + id_criterio_comentario_inicial + id_criterio_comentarios_funcs + ");";
+                "id_criterio_espacios, id_criterio_comentario_inicial, id_criterio_comentarios_funcs) VALUES ('" +
+                nombre + "', " + id_cr_nombre_archivo + ", " + id_cr_vars_ctes + ", "
+                + id_criterio_espacios + ", " + id_criterio_comentario_inicial + ", " + id_criterio_comentarios_funcs + ");";
         int id = ConnectionManager.getInstance().executeInsert(query);
         return new ListaCriterio(id, id_cr_nombre_archivo, id_cr_vars_ctes, id_criterio_espacios,
                 id_criterio_comentario_inicial, id_criterio_comentarios_funcs, nombre);
@@ -145,5 +143,9 @@ public class ListaCriterio extends BaseModel {
 
     public int getId() {
         return id;
+    }
+
+    public String toString() {
+        return this.nombre;
     }
 }

@@ -1,9 +1,11 @@
 package com.vector_polaco.api;
 
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.vector_polaco.conventions.*;
 import com.vector_polaco.interfaces.InterfazCriterios;
 import com.vector_polaco.interfaces.InterfazPrincipal;
+import com.vector_polaco.models.ListaCriterio;
 import com.vector_polaco.utilities.ConnectionManager;
 
 import java.io.FileNotFoundException;
@@ -44,10 +46,6 @@ public class ConventionController {
         InstructionPerLineConvention iplc = new InstructionPerLineConvention();
         headerConvention hc = new headerConvention();
 
-        /*for (String sFilePath : sArrFilePath){
-            Constants.readFile(sFilePath);
-        }*/
-
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
         Constants.evaluateConstants(listCurrentFile);
         ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
@@ -59,9 +57,19 @@ public class ConventionController {
     }
 
     public void launchMainInterface(){
-        InterfazPrincipal ipVentanaUno = new InterfazPrincipal(this);
-        ipVentanaUno.createGUI();
-        ipVentanaUno.setVisible(true);
+        ArrayList<ListaCriterio> l = ListaCriterio.getAll();
+        if(l.size() > 0){
+            InterfazPrincipal ipVentanaUno = new InterfazPrincipal(this);
+            ipVentanaUno.setListaCriterio(l);
+            ipVentanaUno.createGUI();
+            ipVentanaUno.setVisible(true);
+        } else {
+            InterfazCriterios ic = new InterfazCriterios(this);
+            ic.createGUI();
+            ic.setVisible(true);
+            ic.launchFirstTime();
+        }
+
     }
 
     public void launchCriteriaListInterface(){
@@ -74,6 +82,10 @@ public class ConventionController {
         InterfazCriterios ic = new InterfazCriterios(this, criteriaListId);
         ic.createGUI();
         ic.setVisible(true);
+    }
+
+    public void updateList() {
+        System.out.print("READY\n");
     }
 }
 

@@ -5,10 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
 import com.vector_polaco.api.*;
+import com.vector_polaco.models.ListaCriterio;
 
 public class InterfazPrincipal extends JFrame implements ActionListener {
 
@@ -21,7 +23,8 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     private JButton jbuSalir, jbuLimpiarCampos, jbuContinuar;
     private JLabel jlaCarpetaContenedora, jlaArchivoOutput, jlaExtension, jlaNombreArchivoSalida, jlaListaCriterios;
     private JTextField jteCarpetaContenedora, jteLugarArchivoSalida, jteNombreArchivoSalida;
-    private JComboBox<String> jcoListaCriterios;
+    private JComboBox<ListaCriterio> jcoListaCriterios;
+    private ArrayList<ListaCriterio> listaCriterio;
     private String sDirectory;
     private ConventionController controller;
 
@@ -130,7 +133,10 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         conVentana.add(jteNombreArchivoSalida);
 
         // Combobox
-        jcoListaCriterios = new JComboBox<>(sArrListaFormasDeEvaluacion);
+        jcoListaCriterios = new JComboBox<>();
+        for(ListaCriterio item : this.listaCriterio) {
+            jcoListaCriterios.addItem(item);
+        }
         jcoListaCriterios.setBounds(CELL_WIDTH, CELL_HEIGHT * 2, CELL_WIDTH * 11, CELL_HEIGHT);
         conVentana.add(jcoListaCriterios);
         jcoListaCriterios.addActionListener(this);
@@ -205,5 +211,9 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+    public void setListaCriterio(ArrayList<ListaCriterio> listaCriterio) {
+        this.listaCriterio = listaCriterio;
     }
 }

@@ -18,24 +18,19 @@ public class ConnectionManager {
             System.out.println("Opened database successfully");
             String crear_tabla_criterios = "" +
                     "CREATE TABLE IF NOT EXISTS criterio (" +
-                    "id                             INT             PRIMARY     KEY     NOT NULL," +
+                    "id                             INTEGER             PRIMARY     KEY AUTOINCREMENT    NOT NULL," +
                     "porcentaje_deducido            INT                                 NOT NULL," +
                     "valor                          INT                                 NOT NULL" +
                     ");";
             String crear_tabla_lista_criterios = "" +
                     "CREATE TABLE IF NOT EXISTS lista_criterios (" +
-                    "       id                             INT             PRIMARY     KEY     NOT NULL," +
+                    "       id                             INTEGER             PRIMARY     KEY AUTOINCREMENT     NOT NULL," +
                     "       nombre                         VARCHAR(100)                        NOT NULL," +
-                    "       id_criterio_nombre_archivo     INT                                 NOT NULL," +
-                    "       id_criterio_vars_ctes          INT                                 NOT NULL," +
-                    "       id_criterio_espacios           INT                                 NOT NULL," +
-                    "       id_criterio_comentario_inicial INT                                 NOT NULL," +
-                    "       id_criterio_comentarios_funcs  INT                                 NOT NULL, " +
-
-                    "FOREIGN KEY (id_criterio_nombre_archivo, id_criterio_vars_ctes, id_criterio_espacios, id_criterio_comentario_inicial, id_criterio_comentarios_funcs)" +
-                    "       REFERENCES criterio(id, id, id, id, id)" +
-                    "       ON DELETE CASCADE" +
-                    ");";
+                    "       id_criterio_nombre_archivo     INT                                          ," +
+                    "       id_criterio_vars_ctes          INT                                          ," +
+                    "       id_criterio_espacios           INT                                          ," +
+                    "       id_criterio_comentario_inicial INT                                          ," +
+                    "       id_criterio_comentarios_funcs  INT                                          );";
             Statement stmt = dbConnection.createStatement();
 
             stmt.executeUpdate(crear_tabla_criterios);
@@ -70,6 +65,8 @@ public class ConnectionManager {
         try {
             stmt = dbConnection.createStatement();
             results = stmt.executeQuery(query);
+            System.out.println(query);
+            System.out.println(results.getFetchSize());
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,9 +79,10 @@ public class ConnectionManager {
         int generatedKey = 0;
         try {
             stmt = dbConnection.createStatement();
-            stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = stmt.getGeneratedKeys();
-            if(rs.next()) {
+            stmt.executeUpdate(query);
+            stmt = dbConnection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()");
+            if (rs.next()) {
                 generatedKey = rs.getInt(1);
             }
             stmt.close();
