@@ -92,7 +92,6 @@ public class WhiteSpaceConvention {
             }
             if ((bFlagCommentML == false) && (bFlagComment == false) && (!s.contains("*/")) && (!s.contains("#"))) {
                 checkIndentationLevel(s);
-                System.out.println("hola:c");
                 checkSpaces(s);
 
             }

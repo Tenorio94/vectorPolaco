@@ -36,7 +36,7 @@ using namespace std;
    */
  double GetGrade (string sMessage)
  {
-     double dGrade;
+     const int iGrade;
      cout<< sMessage << endl;
      cin >> dGrade ;
      
@@ -56,7 +56,7 @@ using namespace std;
    cGrade
    */
  
- char CalculateGrade(double dGrade)
+ char CalculateGrade(int iGrade)
  {
     char cGrade;
      if (dGrade >= 90)
