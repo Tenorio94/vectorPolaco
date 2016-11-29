@@ -40,8 +40,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("Integer: " + sCurrentWord);
                     fillVariableInteger(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -52,8 +54,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("Boolean: " + sCurrentWord);
                     fillVariableBoolean(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -64,8 +68,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("Double: " + sCurrentWord);
                     fillVariableDouble(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -76,8 +82,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("Float: " + sCurrentWord);
                     fillVariableFloat(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -88,8 +96,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("Char: " + sCurrentWord);
                     fillVariableChar(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -100,8 +110,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("String: " + sCurrentWord);
                     fillVariableString(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -112,8 +124,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("iArr: " + sCurrentWord);
                     fillVariableIntArr(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -124,8 +138,10 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
+                    System.out.println("dMat: " + sCurrentWord);
                     fillVariableDoubleMatrix(sCurrentWord);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' || sCurrentWord.charAt(sCurrentWord.length() - 1) != '(');
+                    listCurrentFileRead.remove(iIntegerIndex);
+                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
