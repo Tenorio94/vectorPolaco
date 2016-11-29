@@ -40,7 +40,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("Integer: " + sCurrentWord);
+                    //System.out.println("Integer: " + sCurrentWord);
                     fillVariableInteger(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -54,7 +54,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("Boolean: " + sCurrentWord);
+                    //System.out.println("Boolean: " + sCurrentWord);
                     fillVariableBoolean(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -68,7 +68,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("Double: " + sCurrentWord);
+                    //System.out.println("Double: " + sCurrentWord);
                     fillVariableDouble(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -82,7 +82,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("Float: " + sCurrentWord);
+                    //System.out.println("Float: " + sCurrentWord);
                     fillVariableFloat(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -96,7 +96,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("Char: " + sCurrentWord);
+                    //System.out.println("Char: " + sCurrentWord);
                     fillVariableChar(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -110,7 +110,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("String: " + sCurrentWord);
+                    //System.out.println("String: " + sCurrentWord);
                     fillVariableString(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -124,7 +124,7 @@ public class ConstantsConvention {
 
                 do {
                     sCurrentWord = listCurrentFileRead.get(iIntegerIndex);
-                    System.out.println("iArr: " + sCurrentWord);
+                    //System.out.println("iArr: " + sCurrentWord);
                     fillVariableIntArr(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
                 }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
@@ -205,7 +205,7 @@ public class ConstantsConvention {
     }
 
     public void evaluateVariables(ArrayList<VariableObject> arrListRealVariables){
-        for(VariableObject variable : arrListVariables){
+        for(VariableObject variable : arrListRealVariables){
             switch (variable.sVariableType) {
                 case "Integer" :
                     evaluateVariableInteger(variable);
@@ -238,23 +238,18 @@ public class ConstantsConvention {
     private void evaluateVariableInteger(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
+
+        System.out.println(currentvariable.charAt(0));
 
         if (currentvariable.charAt(0) != 'i'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -265,23 +260,16 @@ public class ConstantsConvention {
     private void evaluateVariableBoolean(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.charAt(0) != 'b'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -292,23 +280,16 @@ public class ConstantsConvention {
     private void evaluateVariableString(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.charAt(0) != 's'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -319,23 +300,16 @@ public class ConstantsConvention {
     private void evaluateVariableCharacter(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.charAt(0) != 'c'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -346,23 +320,16 @@ public class ConstantsConvention {
     private void evaluateVariableDouble(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.charAt(0) != 'd'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -373,23 +340,16 @@ public class ConstantsConvention {
     private void evaluateVariableFloat(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.charAt(0) != 'f'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -400,23 +360,16 @@ public class ConstantsConvention {
     private void evaluateVariableIntArray(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.substring(0, 3) != "iArr"){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
@@ -427,23 +380,16 @@ public class ConstantsConvention {
     private void evaluateVariableDoubleMatrix(VariableObject variable){
         String currentvariable = variable.sVariableName;
         boolean bIsPerfect = true;
-        boolean bUpperCase = false;
         currentvariable = currentvariable.replace(",", "");
         currentvariable = currentvariable.replace(";", "");
+        currentvariable = currentvariable.replace(")", "");
+        currentvariable = currentvariable.replace("(", "");
         currentvariable = currentvariable.trim();
+        variable.sVariableName = currentvariable;
 
         if (currentvariable.substring(0, 3) != "dMat"){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
-        }
-
-        for (int i=1; i<currentvariable.length(); i++){
-            if (Character.isLowerCase(currentvariable.charAt(i))){
-                if (!bUpperCase)
-                    variable.sFeedback += "Variable should be written in uppercase. \n";
-                bIsPerfect = false;
-                bUpperCase = true;
-            }
         }
 
         if (bIsPerfect){
