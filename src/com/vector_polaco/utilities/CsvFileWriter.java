@@ -15,11 +15,12 @@ public class CsvFileWriter {
     private static final String NEW_LINE_SEPARATOR = "\n";
     private FileWriter fileWriter;
     //CSV file header
-    private static final String FILE_HEADER = "id,firstName,lastName,gender,age";
+    private static final String FILE_HEADER = "nombre,criterio1,criterio2,criterio3,criterio4";
 
     public CsvFileWriter(String fileName) {
         try {
             fileWriter = new FileWriter(fileName);
+            fileWriter.append(FILE_HEADER);
         } catch (IOException e) {
             e.printStackTrace();
         }

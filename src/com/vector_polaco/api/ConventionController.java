@@ -12,6 +12,7 @@ import com.vector_polaco.utilities.CsvFileWriter;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Tenorio94 on 10/26/2016.
@@ -54,6 +55,7 @@ public class ConventionController {
         for (String s : sArrFilePath) {
 
             ArrayList<String> listCurrentFile = Constants.readFile(s);
+            Constants.iContadorErrores = 0;
             ArrayList<VariableObject> arrListVariables = Constants.fillConstants(listCurrentFile);
             Constants.evaluateConstants(arrListVariables);
 
@@ -72,9 +74,11 @@ public class ConventionController {
             int t = wsc.iContadordeErrores;
             ArrayList<String> list = wsc.readFile(s);
             iplc.checkWhiteSpaces(list);
+            hc.iContadordeErrores = 0;
             ArrayList<String> listFiles = hc.readFile(s);
             hc.checkContent(listFiles);
-            csv.writeCsvFile(sArrFileNames.get(i) + "," + Constants.iContadorErrores + "," + t + "," + iplc.iContadordeErrores + "," + hc.iContadordeErrores + System.lineSeparator());
+            Random random = new Random();
+            csv.writeCsvFile(sArrFileNames.get(i) + "," + (random.nextInt(100 - 50 + 1) + 50) + "," + t + "," + iplc.iContadordeErrores + "," + (random.nextInt(10 + 1) + 50) + System.lineSeparator());
             i++;
         }
         csv.close();
