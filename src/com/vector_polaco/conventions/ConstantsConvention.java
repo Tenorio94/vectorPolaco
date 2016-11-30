@@ -14,8 +14,10 @@ public class ConstantsConvention {
 
     ArrayList<VariableObject> arrListVariables = new ArrayList<>();
     ArrayList<VariableObject> arrListRealVariables = new ArrayList<>();
+    public int iContadorErrores = 0;
 
     public ArrayList<String> readFile(String sFilePath) throws FileNotFoundException {
+        iContadorErrores = 0;
         Scanner scanner = new Scanner(new File(sFilePath));
         ArrayList<String> listFileRead = new ArrayList<String>();
 
@@ -57,7 +59,7 @@ public class ConstantsConvention {
                     //System.out.println("Boolean: " + sCurrentWord);
                     fillVariableBoolean(sCurrentWord);
                     listCurrentFileRead.remove(iIntegerIndex);
-                }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
+                    }while(sCurrentWord.charAt(sCurrentWord.length() - 1) != ';' && sCurrentWord.charAt(sCurrentWord.length() - 1) != '(' && sCurrentWord.charAt(sCurrentWord.length() - 1) != ')');
             }
         }
 
@@ -245,10 +247,9 @@ public class ConstantsConvention {
         currentvariable = currentvariable.trim();
         variable.sVariableName = currentvariable;
 
-        System.out.println(currentvariable.charAt(0));
-
-        if (currentvariable.charAt(0) != 'i'){
+        if (currentvariable.length() > 0 && currentvariable.charAt(0) != 'i'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -268,6 +269,7 @@ public class ConstantsConvention {
         variable.sVariableName = currentvariable;
 
         if (currentvariable.charAt(0) != 'b'){
+            this.iContadorErrores ++;
             variable.sFeedback += "Variable starts with wrong prefix.\n";
             bIsPerfect = false;
         }
@@ -289,6 +291,7 @@ public class ConstantsConvention {
 
         if (currentvariable.charAt(0) != 's'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -307,8 +310,9 @@ public class ConstantsConvention {
         currentvariable = currentvariable.trim();
         variable.sVariableName = currentvariable;
 
-        if (currentvariable.charAt(0) != 'c'){
+        if (currentvariable.length() > 0 && currentvariable.charAt(0) != 'c'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -327,8 +331,9 @@ public class ConstantsConvention {
         currentvariable = currentvariable.trim();
         variable.sVariableName = currentvariable;
 
-        if (currentvariable.charAt(0) != 'd'){
+        if (currentvariable.length() > 0 && currentvariable.charAt(0) != 'd'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -347,8 +352,9 @@ public class ConstantsConvention {
         currentvariable = currentvariable.trim();
         variable.sVariableName = currentvariable;
 
-        if (currentvariable.charAt(0) != 'f'){
+        if (currentvariable.length() > 0 && currentvariable.charAt(0) != 'f'){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -369,6 +375,7 @@ public class ConstantsConvention {
 
         if (currentvariable.substring(0, 3) != "iArr"){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -389,6 +396,7 @@ public class ConstantsConvention {
 
         if (currentvariable.substring(0, 3) != "dMat"){
             variable.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -487,6 +495,7 @@ public class ConstantsConvention {
     }
 
     public void evaluateConstants(ArrayList<VariableObject> arrListVariables){
+
         for(VariableObject constant : arrListVariables){
             switch (constant.sVariableType) {
                 case "Integer" :
@@ -595,8 +604,9 @@ public class ConstantsConvention {
         currentConstant = currentConstant.replace(";", "");
         currentConstant = currentConstant.trim();
 
-        if (currentConstant.charAt(0) != 'i'){
+        if (currentConstant.length() > 0 && currentConstant.charAt(0) != 'i'){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -604,6 +614,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -622,8 +633,9 @@ public class ConstantsConvention {
         currentConstant = currentConstant.replace(";", "");
         currentConstant = currentConstant.trim();
 
-        if (currentConstant.charAt(0) != 'b'){
+        if (currentConstant.length() > 0 && currentConstant.charAt(0) != 'b'){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -631,6 +643,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -649,8 +662,9 @@ public class ConstantsConvention {
         currentConstant = currentConstant.replace(";", "");
         currentConstant = currentConstant.trim();
 
-        if (currentConstant.charAt(0) != 's'){
+        if (currentConstant.length() > 0 && currentConstant.charAt(0) != 's'){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -658,6 +672,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -676,8 +691,9 @@ public class ConstantsConvention {
         currentConstant = currentConstant.replace(";", "");
         currentConstant = currentConstant.trim();
 
-        if (currentConstant.charAt(0) != 'c'){
+        if (currentConstant.length() > 0 && currentConstant.charAt(0) != 'c'){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -685,6 +701,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -703,8 +720,9 @@ public class ConstantsConvention {
         currentConstant = currentConstant.replace(";", "");
         currentConstant = currentConstant.trim();
 
-        if (currentConstant.charAt(0) != 'd'){
+        if (currentConstant.length() > 0 && currentConstant.charAt(0) != 'd'){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -712,6 +730,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -730,8 +749,9 @@ public class ConstantsConvention {
         currentConstant = currentConstant.replace(";", "");
         currentConstant = currentConstant.trim();
 
-        if (currentConstant.charAt(0) != 'f'){
+        if (currentConstant.length() > 0 && currentConstant.charAt(0) != 'f'){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -739,6 +759,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -759,6 +780,7 @@ public class ConstantsConvention {
 
         if (currentConstant.substring(0, 3) != "iArr"){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -766,6 +788,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }
@@ -786,6 +809,7 @@ public class ConstantsConvention {
 
         if (currentConstant.substring(0, 3) != "dMat"){
             constant.sFeedback += "Variable starts with wrong prefix.\n";
+            this.iContadorErrores ++;
             bIsPerfect = false;
         }
 
@@ -793,6 +817,7 @@ public class ConstantsConvention {
             if (Character.isLowerCase(currentConstant.charAt(i))){
                 if (!bUpperCase)
                     constant.sFeedback += "Variable should be written in uppercase. \n";
+                this.iContadorErrores ++;
                 bIsPerfect = false;
                 bUpperCase = true;
             }

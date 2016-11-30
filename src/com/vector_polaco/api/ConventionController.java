@@ -8,6 +8,7 @@ import com.vector_polaco.interfaces.InterfazCriterios;
 import com.vector_polaco.interfaces.InterfazPrincipal;
 import com.vector_polaco.models.ListaCriterio;
 import com.vector_polaco.utilities.ConnectionManager;
+import com.vector_polaco.utilities.CsvFileWriter;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -42,38 +43,47 @@ public class ConventionController {
         }
     }
 
-    public void nameConstantConvention() throws FileNotFoundException {
+    public void nameConstantVariablesConvention() throws FileNotFoundException {
         ConstantsConvention Constants = new ConstantsConvention();
         WhiteSpaceConvention wsc = new WhiteSpaceConvention();
         InstructionPerLineConvention iplc = new InstructionPerLineConvention();
         headerConvention hc = new headerConvention();
+        CsvFileWriter csv = new CsvFileWriter("test.csv");
+        int i = 0;
 
-        ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
-        Constants.evaluateConstants(listCurrentFile);
+        for (String s : sArrFilePath) {
 
-        Constants.fillVariables(listCurrentFile, "int");
-        Constants.fillVariables(listCurrentFile, "bool");
-        Constants.fillVariables(listCurrentFile, "double");
-        Constants.fillVariables(listCurrentFile, "char");
-        Constants.fillVariables(listCurrentFile, "float");
-        Constants.fillVariables(listCurrentFile, "String");
-        Constants.fillVariables(listCurrentFile, "iArr");
-        ArrayList<VariableObject> arrListRealVariables = Constants.fillVariables(listCurrentFile, "dMat");
-        Constants.evaluateVariables(arrListRealVariables);
+            ArrayList<String> listCurrentFile = Constants.readFile(s);
+            ArrayList<VariableObject> arrListVariables = Constants.fillConstants(listCurrentFile);
+            Constants.evaluateConstants(arrListVariables);
 
-        ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
-        wsc.checkWhiteSpaces(lista);
-        ArrayList<String> list = wsc.readFile(sArrFilePath.get(0));
-        iplc.checkWhiteSpaces(list);
-        ArrayList<String> listFiles = hc.readFile(sArrFilePath.get(0));
-        hc.checkContent(listFiles);
+            Constants.fillVariables(listCurrentFile, "int");
+            Constants.fillVariables(listCurrentFile, "bool");
+            Constants.fillVariables(listCurrentFile, "double");
+            Constants.fillVariables(listCurrentFile, "char");
+            Constants.fillVariables(listCurrentFile, "float");
+            Constants.fillVariables(listCurrentFile, "String");
+            Constants.fillVariables(listCurrentFile, "iArr");
+            ArrayList<VariableObject> arrListRealVariables = Constants.fillVariables(listCurrentFile, "dMat");
+            Constants.evaluateVariables(arrListRealVariables);
 
+            ArrayList<String> lista = wsc.readFile(s);
+            wsc.checkWhiteSpaces(lista);
+            int t = wsc.iContadordeErrores;
+            ArrayList<String> list = wsc.readFile(s);
+            iplc.checkWhiteSpaces(list);
+            ArrayList<String> listFiles = hc.readFile(s);
+            hc.checkContent(listFiles);
+            csv.writeCsvFile(sArrFileNames.get(i) + "," + Constants.iContadorErrores + "," + t + "," + iplc.iContadordeErrores + "," + hc.iContadordeErrores + System.lineSeparator());
+            i++;
+        }
+        csv.close();
         System.out.println("Finished...");
     }
 
-    public void launchMainInterface(){
+    public void launchMainInterface() {
         ArrayList<ListaCriterio> l = ListaCriterio.getAll();
-        if(l.size() > 0){
+        if (l.size() > 0) {
             ip = new InterfazPrincipal(this);
             ip.setListaCriterio(l);
             ip.createGUI();
@@ -86,13 +96,13 @@ public class ConventionController {
         }
     }
 
-    public void launchCriteriaListInterface(){
+    public void launchCriteriaListInterface() {
         InterfazCriterios ic = new InterfazCriterios(this);
         ic.createGUI();
         ic.setVisible(true);
     }
 
-    public void launchCriteriaListInterfaceWithId(int criteriaListId){
+    public void launchCriteriaListInterfaceWithId(int criteriaListId) {
         InterfazCriterios ic = new InterfazCriterios(this, criteriaListId);
         ic.createGUI();
         ic.setVisible(true);
@@ -100,7 +110,7 @@ public class ConventionController {
 
     public void updateList() {
         ArrayList<ListaCriterio> l = ListaCriterio.getAll();
-        if(ip == null){
+        if (ip == null) {
             ip = new InterfazPrincipal(this);
             ip.createGUI();
             ip.setVisible(true);

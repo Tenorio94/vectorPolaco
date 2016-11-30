@@ -14,12 +14,13 @@ import java.util.Scanner;
  */
 public class headerConvention {
 
-    private int iContadordeErrores = 0;
+    public int iContadordeErrores = 0;
     boolean bFileName = false;
     boolean bDate = false;
     boolean bVersion = false;
 
     public ArrayList<String> readFile(String sFilePath) throws FileNotFoundException {
+        iContadordeErrores = 0;
         Scanner scanner = new Scanner(new File(sFilePath));
         ArrayList<String> listFileRead = new ArrayList<String>();
         while (scanner.hasNext()) {
@@ -32,32 +33,30 @@ public class headerConvention {
     public void evaluateHeader(ArrayList<String> listCurrentFileRead) {
         int i = 0;
         // Si la primera linea empieza con el bloque de comentarios
-        if (listCurrentFileRead.get(0).contains("/*")) {
-            /*while(!(listCurrentFileRead.contains("*///"))){
-            //listCurrentFileRead.
-            //} */
-            i++;
-            while (!listCurrentFileRead.get(i).contains("*/")) {
-                // Checar si incluye nombre de file
-                if (!listCurrentFileRead.get(i).equals("")) {
-                    if (!bFileName) {
-                        checkFileName(listCurrentFileRead.get(i));
-                    }
-                    if (!bDate) {
-                        checkDate(listCurrentFileRead.get(i));
-                    }
-                    if (!bVersion) {
-                        checkVersion(listCurrentFileRead.get(i));
-                    }
-                }
+        if (listCurrentFileRead.size() > 0) {
+            if (listCurrentFileRead.get(0).contains("/*")) {
                 i++;
-            }
-            if (bFileName == false || bDate == false || bVersion == false) {
-                iContadordeErrores++;
-                System.out.println("Error en los comentarios del header");
+                while (!listCurrentFileRead.get(i).contains("*/")) {
+                    // Checar si incluye nombre de file
+                    if (!listCurrentFileRead.get(i).equals("")) {
+                        if (!bFileName) {
+                            checkFileName(listCurrentFileRead.get(i));
+                        }
+                        if (!bDate) {
+                            checkDate(listCurrentFileRead.get(i));
+                        }
+                        if (!bVersion) {
+                            checkVersion(listCurrentFileRead.get(i));
+                        }
+                    }
+                    i++;
+                }
+                if (bFileName == false || bDate == false || bVersion == false) {
+                    this.iContadordeErrores++;
+                    System.out.println("Error en los comentarios del header");
+                }
             }
         }
-
     }
 
     public void checkFileName(String s) {
@@ -68,13 +67,9 @@ public class headerConvention {
 
     public void checkDate(String s) {
         s = s.trim();
-        if (s.charAt(2) == '/') {
-            if (s.charAt(5) == '/') {
-                bDate = true;
-            }
-
+        if (s.length() > 4 && s.charAt(2) == '/' && s.charAt(5) == '/') {
+            bDate = true;
         }
-
     }
 
     public void checkVersion(String s) {
@@ -137,7 +132,7 @@ public class headerConvention {
         ArrayList<String> listaParamType = new ArrayList<String>();
         ArrayList<String> listaParam = new ArrayList<String>();
         ArrayList<String> lista = new ArrayList<String>();
-        for(String string : s.split(" ")){
+        for (String string : s.split(" ")) {
             lista.add(string);
         }
         for (String string : lista) {
@@ -155,28 +150,25 @@ public class headerConvention {
                     sub = string.substring(iP + 1, iL);
                     listaParamType.add(sub);
                     bParam = true;
-                }
-                else if (bComa) {
-                    if(bComaAux == true){
+                } else if (bComa) {
+                    if (bComaAux == true) {
                         sub = string;
                         listaParamType.add(sub);
                         bComa = false;
                         bComaAux = false;
                         bParam = true;
-                    }
-                    else if (string.contains(",")) {
+                    } else if (string.contains(",")) {
                         int iC = string.indexOf(",");
                         int iL = string.length();
-                        String subAux = string.substring(iC+1,iL);
-                        if(subAux == "double" || subAux == "int" || subAux == "float"
+                        String subAux = string.substring(iC + 1, iL);
+                        if (subAux == "double" || subAux == "int" || subAux == "float"
                                 || subAux == "long" || subAux == "string" ||
-                                subAux == "char" || subAux == "bool"){
+                                subAux == "char" || subAux == "bool") {
                             sub = subAux;
                             listaParamType.add(sub);
                             bComa = false;
                             bParam = true;
-                        }
-                        else{
+                        } else {
                             bComaAux = true;
                         }
                     }
@@ -259,5 +251,9 @@ public class headerConvention {
         evaluateFunctionsYComentarios(listCurreintFileRead);
         evaluateComments(listCurreintFileRead);
 
+    }
+
+    private int getiContadordeErrores(){
+        return iContadordeErrores;
     }
 }

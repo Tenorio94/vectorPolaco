@@ -12,7 +12,7 @@ public class InstructionPerLineConvention {
 
     private int iIndentationLevel = 0;
     private int iAuxIndentLevel = 0;
-    private int iContadordeErrores = 0;
+    public int iContadordeErrores = 0;
     private boolean bFlagCommentML = false;
     private boolean bFlagComment = false;
 

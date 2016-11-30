@@ -12,11 +12,12 @@ public class WhiteSpaceConvention {
 
     private int iIndentationLevel = 0;
     private int iAuxIndentLevel = 0;
-    private int iContadordeErrores = 0;
+    public int iContadordeErrores = 0;
     private boolean bFlagCommentML = false;
     private boolean bFlagComment = false;
 
     public ArrayList<String> readFile(String sFilePath) throws FileNotFoundException {
+        iContadordeErrores = 0;
         Scanner scanner = new Scanner(new File(sFilePath));
         ArrayList<String> listFileRead = new ArrayList<String>();
         while (scanner.hasNext()) {
@@ -72,9 +73,11 @@ public class WhiteSpaceConvention {
         while (s.contains(c)) {
             int iN = s.indexOf(c);
             char cPosA = s.charAt(iN - 1);
-            char cPosD = s.charAt(iN + 1);
-            if ((cPosA != ' ') && (cPosD != ' ')) {
-                iContadordeErrores++;
+            if(s.length() > iN + 1){
+                char cPosD = s.charAt(iN + 1);
+                if ((cPosA != ' ') && (cPosD != ' ')) {
+                    iContadordeErrores++;
+                }
             }
             s = s.replaceFirst(c, ".");
 
@@ -92,7 +95,6 @@ public class WhiteSpaceConvention {
             }
             if ((bFlagCommentML == false) && (bFlagComment == false) && (!s.contains("*/")) && (!s.contains("#"))) {
                 checkIndentationLevel(s);
-                System.out.println("hola:c");
                 checkSpaces(s);
 
             }
