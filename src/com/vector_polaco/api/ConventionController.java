@@ -3,6 +3,7 @@ package com.vector_polaco.api;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.vector_polaco.conventions.*;
+import com.vector_polaco.VariableObject;
 import com.vector_polaco.interfaces.InterfazCriterios;
 import com.vector_polaco.interfaces.InterfazPrincipal;
 import com.vector_polaco.models.ListaCriterio;
@@ -49,12 +50,25 @@ public class ConventionController {
 
         ArrayList<String> listCurrentFile = Constants.readFile(sArrFilePath.get(0));
         Constants.evaluateConstants(listCurrentFile);
+
+        Constants.fillVariables(listCurrentFile, "int");
+        Constants.fillVariables(listCurrentFile, "bool");
+        Constants.fillVariables(listCurrentFile, "double");
+        Constants.fillVariables(listCurrentFile, "char");
+        Constants.fillVariables(listCurrentFile, "float");
+        Constants.fillVariables(listCurrentFile, "String");
+        Constants.fillVariables(listCurrentFile, "iArr");
+        ArrayList<VariableObject> arrListRealVariables = Constants.fillVariables(listCurrentFile, "dMat");
+        Constants.evaluateVariables(arrListRealVariables);
+
         ArrayList<String> lista = wsc.readFile(sArrFilePath.get(0));
         wsc.checkWhiteSpaces(lista);
         ArrayList<String> list = wsc.readFile(sArrFilePath.get(0));
         iplc.checkWhiteSpaces(list);
         ArrayList<String> listFiles = hc.readFile(sArrFilePath.get(0));
         hc.checkContent(listFiles);
+
+        System.out.println("Finished...");
     }
 
     public void launchMainInterface(){
