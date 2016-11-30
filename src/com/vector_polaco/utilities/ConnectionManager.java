@@ -64,10 +64,8 @@ public class ConnectionManager {
         ResultSet results = null;
         try {
             stmt = dbConnection.createStatement();
-            results = stmt.executeQuery(query);
-            System.out.println(query);
-            System.out.println(results.getFetchSize());
-            stmt.close();
+            stmt.execute(query);
+            results = stmt.getResultSet();
         } catch (SQLException e) {
             e.printStackTrace();
         }

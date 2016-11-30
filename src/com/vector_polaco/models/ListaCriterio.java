@@ -65,7 +65,6 @@ public class ListaCriterio extends BaseModel {
         ResultSet rs = ConnectionManager.getInstance().executeQuery(query);
         ArrayList<ListaCriterio> al = new ArrayList<>();
         try {
-            System.out.println(rs.getFetchSize());
             while (rs.next()) {
                 ListaCriterio lc = new ListaCriterio(rs.getInt("id"), rs.getInt("id_criterio_nombre_archivo"),
                         rs.getInt("id_criterio_vars_ctes"), rs.getInt("id_criterio_espacios"), rs.getInt("id_criterio_comentario_inicial"), rs.getInt("id_criterio_comentarios_funcs"), rs.getString("nombre"));

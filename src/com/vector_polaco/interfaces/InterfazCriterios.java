@@ -219,10 +219,10 @@ public class InterfazCriterios extends JFrame implements ActionListener {
                     } else {
                         if (InterfazCriterios.this.id_lista_criterio == 0) {
                             int ids[] = new int[5];
-                            for(int i = 0 ; i < 5 ; i++){
+                            for (int i = 0; i < 5; i++) {
                                 Criterio cr = Criterio.createOne(
                                         (Integer) InterfazCriterios.this.arrJteCriterios[i].getValue(), (Integer)
-                                        InterfazCriterios.this.arrJteDeductedPoints[i].getValue());
+                                                InterfazCriterios.this.arrJteDeductedPoints[i].getValue());
                                 ids[i] = cr.getId();
                             }
                             ListaCriterio lista = ListaCriterio.createOne(ids[0], ids[1], ids[2], ids[3], ids[4],
@@ -251,8 +251,9 @@ public class InterfazCriterios extends JFrame implements ActionListener {
                             cr5.setPuntos_deducido_por_error((Integer) InterfazCriterios.this.arrJteDeductedPoints[4].getValue());
                             cr5.update();
                             lista.update();
-                            InterfazCriterios.this.controller.updateList();
                         }
+                        InterfazCriterios.this.controller.updateList();
+                        InterfazCriterios.this.dispose();
                     }
                 }
             }
