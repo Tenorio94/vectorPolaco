@@ -9,7 +9,7 @@ public class ConnectionManager {
     private static Connection dbConnection;
     private static ConnectionManager instance = null;
     private static final String connectionName = "jdbc:sqlite:";
-    private static final String db_name = "test.db";
+    private static final String db_name = "vector_polaco.db";
     private static Statement stmt;
 
     protected ConnectionManager() {
