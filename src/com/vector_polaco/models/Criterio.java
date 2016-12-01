@@ -41,7 +41,7 @@ public class Criterio extends BaseModel {
     public void update() {
         String query = "UPDATE criterio SET "+
                 "valor=" + this.valor +
-                ", puntos_deducido_por_error="       + this.puntos_deducido_por_error +
+                ", porcentaje_deducido="       + this.puntos_deducido_por_error +
                 " WHERE criterio.id=" + id + ";"
                 ;
         ConnectionManager.getInstance().execute(query);

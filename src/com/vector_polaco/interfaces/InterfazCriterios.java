@@ -16,14 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
 import java.lang.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 
 public class InterfazCriterios extends JFrame implements ActionListener {
@@ -40,7 +37,7 @@ public class InterfazCriterios extends JFrame implements ActionListener {
     private JLabel jlbNombreLista;
     private JTextField jteNombreLista;
     private ArrayList<Integer> liGrading = new ArrayList<>();
-    private int id_lista_criterio = 0;
+    private ListaCriterio lista_criterio;
     private ConventionController controller;
 
     private static final String[] letrerosLabels = {
@@ -54,15 +51,15 @@ public class InterfazCriterios extends JFrame implements ActionListener {
         this.controller = c;
     }
 
-    public InterfazCriterios(ConventionController c, int id_lista_criterio) {
+    public InterfazCriterios(ConventionController c, ListaCriterio lista_criterio) {
         this.controller = c;
-        this.id_lista_criterio = id_lista_criterio;
+        this.lista_criterio = lista_criterio;
     }
 
     public void createGUI() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Container conVentana = this.getContentPane();
-        this.setSize((int) (CELL_WIDTH * 13), (int) (CELL_HEIGHT * 19.5));
+        this.setSize(CELL_WIDTH * 13, (int) (CELL_HEIGHT * 19.5));
         this.setResizable(false);
 
         NumberFormat longFormat = NumberFormat.getIntegerInstance();
@@ -217,7 +214,7 @@ public class InterfazCriterios extends JFrame implements ActionListener {
                                 "Cuidado",
                                 JOptionPane.WARNING_MESSAGE);
                     } else {
-                        if (InterfazCriterios.this.id_lista_criterio == 0) {
+                        if (InterfazCriterios.this.lista_criterio == null) {
                             int ids[] = new int[5];
                             for (int i = 0; i < 5; i++) {
                                 Criterio cr = Criterio.createOne(
@@ -228,7 +225,7 @@ public class InterfazCriterios extends JFrame implements ActionListener {
                             ListaCriterio lista = ListaCriterio.createOne(ids[0], ids[1], ids[2], ids[3], ids[4],
                                     InterfazCriterios.this.jteNombreLista.getText());
                         } else {
-                            ListaCriterio lista = ListaCriterio.getOne(InterfazCriterios.this.id_lista_criterio);
+                            ListaCriterio lista = InterfazCriterios.this.lista_criterio;
                             Criterio cr1 = Criterio.getOne(lista.getId_cr_nombre_archivo());
                             Criterio cr2 = Criterio.getOne(lista.getId_cr_vars_ctes());
                             Criterio cr3 = Criterio.getOne(lista.getId_criterio_comentario_inicial());
@@ -258,6 +255,27 @@ public class InterfazCriterios extends JFrame implements ActionListener {
                 }
             }
         });
+
+        if(this.lista_criterio != null){
+            InterfazCriterios.this.jteNombreLista.setText(this.lista_criterio.getNombre());
+            Criterio cr1 = Criterio.getOne(this.lista_criterio.getId_cr_nombre_archivo());
+            Criterio cr2 = Criterio.getOne(this.lista_criterio.getId_cr_vars_ctes());
+            Criterio cr3 = Criterio.getOne(this.lista_criterio.getId_criterio_comentario_inicial());
+            Criterio cr4 = Criterio.getOne(this.lista_criterio.getId_criterio_comentarios_funcs());
+            Criterio cr5 = Criterio.getOne(this.lista_criterio.getId_criterio_espacios());
+
+            arrJteCriterios[0].setValue(cr1.getValor());
+            arrJteCriterios[1].setValue(cr2.getValor());
+            arrJteCriterios[2].setValue(cr3.getValor());
+            arrJteCriterios[3].setValue(cr4.getValor());
+            arrJteCriterios[4].setValue(cr5.getValor());
+
+            arrJteDeductedPoints[0].setValue(cr1.getPuntos_deducido_por_error());
+            arrJteDeductedPoints[1].setValue(cr2.getPuntos_deducido_por_error());
+            arrJteDeductedPoints[2].setValue(cr3.getPuntos_deducido_por_error());
+            arrJteDeductedPoints[3].setValue(cr4.getPuntos_deducido_por_error());
+            arrJteDeductedPoints[4].setValue(cr5.getPuntos_deducido_por_error());
+        }
     }
 
     @Override

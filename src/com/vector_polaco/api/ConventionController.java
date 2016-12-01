@@ -95,9 +95,10 @@ public class ConventionController {
         ArrayList<ListaCriterio> l = ListaCriterio.getAll();
         if (l.size() > 0) {
             ip = new InterfazPrincipal(this);
-            ip.setListaCriterio(l);
             ip.createGUI();
             ip.setVisible(true);
+            ip.setListaCriterio(l);
+
         } else {
             InterfazCriterios ic = new InterfazCriterios(this);
             ic.createGUI();
@@ -106,14 +107,21 @@ public class ConventionController {
         }
     }
 
+    public void launchCriteriaListInterface(ListaCriterio li) {
+        InterfazCriterios ic = new InterfazCriterios(this, li);
+        ic.createGUI();
+        ic.setVisible(true);
+    }
+
     public void launchCriteriaListInterface() {
         InterfazCriterios ic = new InterfazCriterios(this);
         ic.createGUI();
         ic.setVisible(true);
     }
 
+
     public void launchCriteriaListInterfaceWithId(int criteriaListId) {
-        InterfazCriterios ic = new InterfazCriterios(this, criteriaListId);
+        InterfazCriterios ic = new InterfazCriterios(this, ListaCriterio.getOne(criteriaListId));
         ic.createGUI();
         ic.setVisible(true);
     }
@@ -125,6 +133,12 @@ public class ConventionController {
             ip.createGUI();
             ip.setVisible(true);
         }
+        ip.setListaCriterio(l);
+    }
+
+    public void deleteLista(ListaCriterio li) {
+        li.delete();
+        ArrayList<ListaCriterio> l = ListaCriterio.getAll();
         ip.setListaCriterio(l);
     }
 }

@@ -10,6 +10,7 @@ public class ConnectionManager {
     private static ConnectionManager instance = null;
     private static final String connectionName = "jdbc:sqlite:";
     private static final String db_name = "test.db";
+    private static Statement stmt;
 
     protected ConnectionManager() {
         try {
@@ -18,13 +19,13 @@ public class ConnectionManager {
             System.out.println("Opened database successfully");
             String crear_tabla_criterios = "" +
                     "CREATE TABLE IF NOT EXISTS criterio (" +
-                    "id                             INTEGER             PRIMARY     KEY AUTOINCREMENT    NOT NULL," +
+                    "id                             INTEGER             PRIMARY     KEY AUTOINCREMENT," +
                     "porcentaje_deducido            INT                                 NOT NULL," +
                     "valor                          INT                                 NOT NULL" +
                     ");";
             String crear_tabla_lista_criterios = "" +
                     "CREATE TABLE IF NOT EXISTS lista_criterios (" +
-                    "       id                             INTEGER             PRIMARY     KEY AUTOINCREMENT     NOT NULL," +
+                    "       id                             INTEGER             PRIMARY     KEY AUTOINCREMENT," +
                     "       nombre                         VARCHAR(100)                        NOT NULL," +
                     "       id_criterio_nombre_archivo     INT                                          ," +
                     "       id_criterio_vars_ctes          INT                                          ," +
@@ -49,7 +50,13 @@ public class ConnectionManager {
     }
 
     public void execute(String query) {
-        Statement stmt = null;
+        try {
+            if(stmt != null && !stmt.isClosed())
+                stmt.close();
+            stmt = null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try {
             stmt = dbConnection.createStatement();
             stmt.execute(query);
@@ -60,7 +67,13 @@ public class ConnectionManager {
     }
 
     public ResultSet executeQuery(String query){
-        Statement stmt = null;
+        try {
+            if(stmt != null && !stmt.isClosed())
+                stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stmt = null;
         ResultSet results = null;
         try {
             stmt = dbConnection.createStatement();
@@ -73,7 +86,13 @@ public class ConnectionManager {
     }
 
     public int executeInsert(String query){
-        Statement stmt = null;
+        try {
+            if(stmt != null && !stmt.isClosed())
+                stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        stmt = null;
         int generatedKey = 0;
         try {
             stmt = dbConnection.createStatement();

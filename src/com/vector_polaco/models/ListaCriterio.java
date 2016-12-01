@@ -43,15 +43,16 @@ public class ListaCriterio extends BaseModel {
 
     @Override
     public void delete() {
-        String query = "DELETE lista_criterios WHERE id=" + id;
+        String query = "DELETE FROM lista_criterios WHERE id=" + id + ";";
+        System.out.println(query);
         ConnectionManager.getInstance().execute(query);
     }
 
     @Override
     public void update() {
         String query = "UPDATE lista_criterios SET " +
-                "nombre=" + nombre +
-                ", id_criterio_nombre_archivo=" + id_cr_nombre_archivo +
+                "nombre='" + nombre +
+                "', id_criterio_nombre_archivo=" + id_cr_nombre_archivo +
                 ", id_criterio_vars_ctes=" + id_cr_vars_ctes +
                 ", id_criterio_espacios=" + id_criterio_espacios +
                 ", id_criterio_comentario_inicial=" + id_criterio_comentario_inicial +

@@ -28,7 +28,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     private String sDirectory;
     private ConventionController controller;
 
-    public InterfazPrincipal(ConventionController c){
+    public InterfazPrincipal(ConventionController c) {
         this.controller = c;
     }
 
@@ -67,7 +67,12 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         jbuBorrarListaCriterios = new JButton("Borrar");
         jbuBorrarListaCriterios.setBounds(CELL_WIDTH, CELL_HEIGHT * 4, CELL_WIDTH * 3, CELL_HEIGHT);
         conVentana.add(jbuBorrarListaCriterios);
-        jbuBorrarListaCriterios.addActionListener(this);
+        jbuBorrarListaCriterios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InterfazPrincipal.this.controller.deleteLista((ListaCriterio) InterfazPrincipal.this.jcoListaCriterios.getSelectedItem());
+            }
+        });
         //jbuBorrarListaCriterios.
 
         jbuEditarListaCriterios = new JButton("Editar");
@@ -75,7 +80,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
         conVentana.add(jbuEditarListaCriterios);
         jbuEditarListaCriterios.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                InterfazPrincipal.this.controller.launchCriteriaListInterface();
+                InterfazPrincipal.this.controller.launchCriteriaListInterface((ListaCriterio) InterfazPrincipal.this.jcoListaCriterios.getSelectedItem());
             }
         });
 
@@ -134,9 +139,6 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
 
         // Combobox
         jcoListaCriterios = new JComboBox<>();
-        for(ListaCriterio item : this.listaCriterio) {
-            jcoListaCriterios.addItem(item);
-        }
         jcoListaCriterios.setBounds(CELL_WIDTH, CELL_HEIGHT * 2, CELL_WIDTH * 11, CELL_HEIGHT);
         conVentana.add(jcoListaCriterios);
         jcoListaCriterios.addActionListener(this);
@@ -173,7 +175,7 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     private void checkFileNaming(ConventionController Controller) throws FileNotFoundException {
         String sPath = "";
         sPath = jteCarpetaContenedora.getText();
-        if(!sPath.equals("")){
+        if (!sPath.equals("")) {
             Controller.getFilesController(sPath);
             Controller.nameConstantVariablesConvention();
         } else {
@@ -214,6 +216,16 @@ public class InterfazPrincipal extends JFrame implements ActionListener {
     }
 
     public void setListaCriterio(ArrayList<ListaCriterio> listaCriterio) {
-        this.listaCriterio = listaCriterio;
+        if(listaCriterio.size() > 0) {
+            this.listaCriterio = listaCriterio;
+            this.jcoListaCriterios.removeAllItems();
+            for (ListaCriterio li : this.listaCriterio) {
+                this.jcoListaCriterios.addItem(li);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No existen listas de criterios definidas. La aplicacion se cerrara para evitar erores.",
+                    "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            exit(0);
+        }
     }
 }
