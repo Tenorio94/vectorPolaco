@@ -13,6 +13,7 @@ public class InstructionPerLineConvention {
     private int iIndentationLevel = 0;
     private int iAuxIndentLevel = 0;
     public int iContadordeErrores = 0;
+    public ArrayList<String> arrLineaInstrcLine = new ArrayList<String>();
     private boolean bFlagCommentML = false;
     private boolean bFlagComment = false;
 
@@ -27,20 +28,22 @@ public class InstructionPerLineConvention {
     }
 
     public void oneInstructionPerLine(String s) {
-    if (s.trim().equals("") == false) {
+        if (s.trim().equals("") == false) {
 
-        String sLast;
-        int tam = (s.length());
-        if (tam > 1) {
-            sLast = s.substring(tam - 1, tam);
-        } else {
-            sLast = s;
-        }
+            String sLast;
+            int tam = (s.length());
+            if (tam > 1) {
+                sLast = s.substring(tam - 1, tam);
+            } else {
+                sLast = s;
+            }
             if ((sLast.startsWith(";") == false) && (sLast.startsWith(")") == false)
                     && (sLast.startsWith("{") == false) && (sLast.startsWith("}") == false)
                     && (sLast.startsWith(">") == false)
-                && (sLast.trim().equals("") == false) && (s.trim().equals("else") == false)) {
+                    && (sLast.trim().equals("") == false) && (s.trim().equals("else") == false)) {
                 iContadordeErrores++;
+                arrLineaInstrcLine.add(s);
+
             }
         }
     }
@@ -65,6 +68,11 @@ public class InstructionPerLineConvention {
             }
         }
         System.out.println(iContadordeErrores);
+
+    }
+
+    public ArrayList<String> getArrLineaInstrcLine(){
+        return arrLineaInstrcLine;
     }
 
 }

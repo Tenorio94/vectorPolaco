@@ -1,13 +1,13 @@
 package com.vector_polaco.conventions;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Scanner;
+        import java.io.File;
+        import java.io.FileInputStream;
+        import java.io.BufferedReader;
+        import java.io.FileNotFoundException;
+        import java.io.IOException;
+        import java.io.InputStreamReader;
+        import java.util.ArrayList;
+        import java.util.Scanner;
 
 /**
  * Created by meyru on 12/11/2016.
@@ -15,9 +15,11 @@ import java.util.Scanner;
 public class headerConvention {
 
     public int iContadordeErrores = 0;
-    boolean bFileName = false;
-    boolean bDate = false;
-    boolean bVersion = false;
+    private boolean bFileName = false;
+    private boolean bDate = false;
+    private boolean bVersion = false;
+    private String sNomFuncion = "";
+    private ArrayList<String> arrHeader = new ArrayList();
 
     public ArrayList<String> readFile(String sFilePath) throws FileNotFoundException {
         iContadordeErrores = 0;
@@ -53,7 +55,18 @@ public class headerConvention {
                 }
                 if (bFileName == false || bDate == false || bVersion == false) {
                     this.iContadordeErrores++;
-                    System.out.println("Error en los comentarios del header");
+                    String aux = "";
+                    if(bFileName == false){
+                        aux = aux.concat(", nombre del archivo, ");
+                    }
+                    if(bDate == false){
+                        aux = aux.concat(", fecha ,");
+                    }
+                    if(bVersion == false){
+                        aux = aux.concat(", version de c++ ,");
+                    }
+                    arrHeader.add("Error en los comentarios del header, no contiene " + aux);
+                    System.out.println("Error en los comentarios del header no contiene " + aux);
                 }
             }
         }
@@ -88,6 +101,7 @@ public class headerConvention {
         }
         if (!bInclude) {
             iContadordeErrores++;
+            arrHeader.add("No contiene #<include>");
         }
     }
 
@@ -98,7 +112,7 @@ public class headerConvention {
             lista.add(string);
         }    */
         boolean bTypeReturn = false;
-        boolean bFuncion = true;
+        boolean bFuncion = false;
         //String sf = lista.get(0);
         if (s.startsWith("int") || s.startsWith("float") || s.startsWith("bool")
                 || s.startsWith("long") || s.startsWith("string")
@@ -117,6 +131,9 @@ public class headerConvention {
             bFuncion = false;
         }
         if (bTypeReturn && bFuncion) {
+            int iBegin = s.indexOf(" ");
+            int iEnd = s.indexOf("(");
+            sNomFuncion = s.substring(iBegin + 1, iEnd);
             return true;
         } else {
             return false;
@@ -178,13 +195,17 @@ public class headerConvention {
         String ss = lista.get(1);
         if (!String.valueOf(ss.charAt(0)).equals(String.valueOf(ss.charAt(0)).toLowerCase())) {
             iContadordeErrores++;
-            System.out.println("Función no debe comenzar con mayúscula: " + ss);
+            int iAux = ss.indexOf("(");
+            String sAux = ss.substring(0,iAux);
+            arrHeader.add("Función no debe comenzar con mayúscula: " + sAux);
+            System.out.println("Función no debe comenzar con mayúscula: " + sAux);
         }
         for (int i = 0; i < listaParam.size(); i++) {
             String sp = listaParam.get(i);
             String sss = listaParamType.get(i);
             if (sp.charAt(0) != sss.charAt(0)) {
                 iContadordeErrores++;
+                arrHeader.add("Parametro no cumple con estandar de variable: " + sp);
                 System.out.println("Parametro no cumple con estandar de variable: " + sp);
             }
         }
@@ -218,8 +239,21 @@ public class headerConvention {
                     if (bFuncion) {
                         if (bParam == false || bReturn == false) {
                             iContadordeErrores++;
-                            System.out.println("Se encontró una funcion y el comentario no tiene los requerimientos de valores return y o parametros");
+                            String sAux = "";
+                            if(bParam == false){
+                                sAux.concat(" parametros ");
+                            }
+                            if(bReturn == false){
+                                sAux.concat(" return ");
+                            }
+                            arrHeader.add("Se encontró la funcion"
+                                    + sNomFuncion + "y el comentario no "
+                                    + "tiene los requerimientos de " + sAux);
+                            System.out.println("Se encontró la funcion"
+                                    + sNomFuncion + "y el comentario no "
+                                    + "tiene los requerimientos de " + sAux);
                         }
+                        sNomFuncion = "";
                         checkFunction(s);
                         bFinDeComentario = false;
                     }
@@ -235,6 +269,7 @@ public class headerConvention {
             if (bGrupodeFuncion) {
                 if (!(s.contains("//")) || (s.contains("/*"))) {
                     iContadordeErrores++;
+                    arrHeader.add("No hay comentarios para grupo de funciones");
                     System.out.println("No hay comentario para grupo de funcion");
                 }
                 bGrupodeFuncion = false;
@@ -255,5 +290,9 @@ public class headerConvention {
 
     private int getiContadordeErrores(){
         return iContadordeErrores;
+    }
+
+    public ArrayList<String> getArrHeader(){
+        return arrHeader;
     }
 }

@@ -68,15 +68,21 @@ public class ConventionController {
             Constants.fillVariables(listCurrentFile, "iArr");
             ArrayList<VariableObject> arrListRealVariables = Constants.fillVariables(listCurrentFile, "dMat");
             Constants.evaluateVariables(arrListRealVariables);
-
+            //WhiteSpaces
             ArrayList<String> lista = wsc.readFile(s);
             wsc.checkWhiteSpaces(lista);
             int t = wsc.iContadordeErrores;
-            ArrayList<String> list = wsc.readFile(s);
+            ArrayList<String> arrListaWhiteSpace = wsc.getArrLineWhiteSpace();
+            //instruction per line
+            ArrayList<String> list = iplc.readFile(s);
             iplc.checkWhiteSpaces(list);
+            int t2 = iplc.iContadordeErrores;
+            ArrayList<String> arrListInstructionPerLine = iplc.getArrLineaInstrcLine();
+            //header convention
             hc.iContadordeErrores = 0;
             ArrayList<String> listFiles = hc.readFile(s);
             hc.checkContent(listFiles);
+            ArrayList<String> arrHeaderConvention = hc.getArrHeader();
             Random random = new Random();
             csv.writeCsvFile(sArrFileNames.get(i) + "," + (random.nextInt(100 - 50 + 1) + 50) + "," + t + "," + iplc.iContadordeErrores + "," + (random.nextInt(10 + 1) + 50) + System.lineSeparator());
             i++;

@@ -15,6 +15,7 @@ public class WhiteSpaceConvention {
     public int iContadordeErrores = 0;
     private boolean bFlagCommentML = false;
     private boolean bFlagComment = false;
+    private ArrayList<String> arrLineWhiteSpace = new ArrayList<String>();
 
     public ArrayList<String> readFile(String sFilePath) throws FileNotFoundException {
         iContadordeErrores = 0;
@@ -36,6 +37,7 @@ public class WhiteSpaceConvention {
             int count = s.length() - s.replace("\t", ".").length();
             if (count != iAuxIndentLevel) {
                 iContadordeErrores++;
+                arrLineWhiteSpace.add(s);
             }
             iAuxIndentLevel = iIndentationLevel;
             if (s.contains("}")) {
@@ -77,6 +79,7 @@ public class WhiteSpaceConvention {
                 char cPosD = s.charAt(iN + 1);
                 if ((cPosA != ' ') && (cPosD != ' ')) {
                     iContadordeErrores++;
+                    arrLineWhiteSpace.add(s);
                 }
             }
             s = s.replaceFirst(c, ".");
@@ -106,6 +109,10 @@ public class WhiteSpaceConvention {
             }
         }
         System.out.println(iContadordeErrores);
+    }
+
+    public ArrayList<String> getArrLineWhiteSpace(){
+        return arrLineWhiteSpace;
     }
 
 }
